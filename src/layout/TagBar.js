@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const TagBar = (props) => {
   const [x, setX] = useState(0);
   // const {isOn, setIsOn} = props;
 
-  // <Tabs value="html" className="2xl:container 2xl:mx-auto mt-10 bg-slate-400">
+  let navigate = useNavigate();
 
   return (
     <>
@@ -15,6 +16,8 @@ const TagBar = (props) => {
           onClick={() => {
             setX(0);
             // setIsOn(1);
+
+            navigate(`/main/product`)
           }}
         >
           <p>商品管理</p>
@@ -23,6 +26,8 @@ const TagBar = (props) => {
           onClick={() => {
             setX("233%");
             // setIsOn(2);
+
+            navigate(`/main/lesson`)
           }}
         >
           <p className="pb-2 text-center">課程管理</p>
@@ -31,6 +36,8 @@ const TagBar = (props) => {
           onClick={() => {
             setX("465%");
             // setIsOn(2);
+            
+            navigate(`/main/user`)
           }}
         >
           <p className="pb-2 text-center">使用者管理</p>
@@ -39,11 +46,13 @@ const TagBar = (props) => {
           onClick={() => {
             setX("700%");
             // setIsOn(2);
+
+            navigate(`/main/coupon`)
           }}
         >
           <p className="pb-2 text-center">優惠卷管理</p>
         </div>
-        
+
         <motion.div
           className="border-b-2 border-dark w-40 pb-2 mx-auto"
           initial={{ x: 0 }}

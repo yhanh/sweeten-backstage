@@ -1,53 +1,17 @@
-import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import ProductTableRow from "../components/TableRow/ProductTableRow";
-
+import CouponTableRow from "../components/TableRow/CouponTableRow";
+import axios from "axios";
 import { API_URL } from "../utils/config";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
-
+const CouponList = () => {
+  const [coupons, setCoupons] = useState([]);
   useEffect(() => {
-    let getProducts = async () => {
-      let response = await axios.get(`${API_URL}/product`, {
-        params: {
-          page: page,
-        },
-      });
-      setProducts(response.data.data);
-      setTotalPage(response.data.pagination.totalPage);
+    const getCoupons = async () => {
+      let response = await axios.get(`${API_URL}/coupon`);
+      setCoupons(response.data);
     };
-    getProducts();
-  }, [page]);
-
-  const getPages = () => {
-    let pages = [];
-    for (let i = 1; i <= totalPage; i++) {
-      pages.push(
-        <li
-          key={i}
-          onClick={(e) => {
-            setPage(i);
-          }}
-          className="text-center rounded"
-          style={{
-            margin: "2px",
-            backgroundColor: page === i ? "#F39898" : "",
-            borderColor: page === i ? "#A9A9A9" : "#dbdbdb",
-            color: page === i ? "#fff" : "#765544",
-            borderWidth: "1px",
-            width: "28px",
-            height: "28px",
-          }}
-        >
-          {i}
-        </li>
-      );
-    }
-    return pages;
-  };
+    getCoupons();
+  }, []);
 
   return (
     <>
@@ -132,24 +96,43 @@ const ProductList = () => {
                         </p>
                       </div>
                     </th>
+                    {/* 優惠碼 */}
                     <th className="pl-10">
                       <div className="flex items-center">
                         <p className="text-sm leading-none text-gray-600 ml-2">
-                          價格
+                          優惠碼
                         </p>
                       </div>
                     </th>
+                    {/* 折扣 */}
                     <th className="pl-5">
                       <div className="flex items-center">
                         <p className="text-sm leading-none text-gray-600 ml-2">
-                          貨運
+                          折扣
                         </p>
                       </div>
                     </th>
+                    {/* 啟用時間 */}
                     <th className="pl-5">
                       <div className="flex items-center">
                         <p className="text-sm leading-none text-gray-600 ml-2">
-                          建立時間
+                          啟用時間
+                        </p>
+                      </div>
+                    </th>
+                    {/* 結束時間 */}
+                    <th className="pl-5">
+                      <div className="flex items-center">
+                        <p className="text-sm leading-none text-gray-600 ml-2">
+                          結束時間
+                        </p>
+                      </div>
+                    </th>
+                    {/* 使用次數 */}
+                    <th className="pl-5">
+                      <div className="flex items-center">
+                        <p className="text-sm leading-none text-gray-600 ml-2">
+                          使用次數
                         </p>
                       </div>
                     </th>
@@ -157,10 +140,10 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {products.map((product) => {
+                  {coupons.map((coupon) => {
                     return (
-                      <Fragment key={product.id}>
-                        <ProductTableRow product={product} />
+                      <Fragment key={coupon.id}>
+                        <CouponTableRow coupon={coupon} />
                       </Fragment>
                     );
                   })}
@@ -171,13 +154,12 @@ const ProductList = () => {
         </div>
         <style>
           {` .checkbox:checked + .check-icon {
-                display: flex;
-            }`}
+                    display: flex;
+                }`}
         </style>
       </div>
-      <ul className="flex justify-center mt-8">{getPages()}</ul>
     </>
   );
 };
 
-export default ProductList;
+export default CouponList;

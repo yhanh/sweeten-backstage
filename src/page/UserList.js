@@ -1,53 +1,9 @@
-import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
-import ProductTableRow from "../components/TableRow/ProductTableRow";
+import React, { useState } from "react";
+import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
 
-import { API_URL } from "../utils/config";
-
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
-
-  useEffect(() => {
-    let getProducts = async () => {
-      let response = await axios.get(`${API_URL}/product`, {
-        params: {
-          page: page,
-        },
-      });
-      setProducts(response.data.data);
-      setTotalPage(response.data.pagination.totalPage);
-    };
-    getProducts();
-  }, [page]);
-
-  const getPages = () => {
-    let pages = [];
-    for (let i = 1; i <= totalPage; i++) {
-      pages.push(
-        <li
-          key={i}
-          onClick={(e) => {
-            setPage(i);
-          }}
-          className="text-center rounded"
-          style={{
-            margin: "2px",
-            backgroundColor: page === i ? "#F39898" : "",
-            borderColor: page === i ? "#A9A9A9" : "#dbdbdb",
-            color: page === i ? "#fff" : "#765544",
-            borderWidth: "1px",
-            width: "28px",
-            height: "28px",
-          }}
-        >
-          {i}
-        </li>
-      );
-    }
-    return pages;
-  };
+const UserList = () => {
+  const [show, setShow] = useState(false);
+  const toggle = () => setShow(!show);
 
   return (
     <>
@@ -157,13 +113,112 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {products.map((product) => {
-                    return (
-                      <Fragment key={product.id}>
-                        <ProductTableRow product={product} />
-                      </Fragment>
-                    );
-                  })}
+                  {/* row */}
+                  <tr className="h-16 border border-gray-300 rounded">
+                    {/* checkbox */}
+                    <td>
+                      <div className="ml-5">
+                        <div className="bg-gray-200 rounded-sm w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+                          <input
+                            type="checkbox"
+                            className="checkbox opacity-0 absolute cursor-pointer w-full h-full"
+                          />
+                          <div className="check-icon  bg-indigo-700 text-white rounded-sm">
+                            <svg
+                              className="icon icon-tabler icon-tabler-check"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width={20}
+                              height={20}
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path stroke="none" d="M0 0h24v24H0z" />
+                              <path d="M5 12l5 5l10 -10" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    {/* name */}
+                    <td>
+                      <div className="flex items-center pl-5">
+                        <p className="text-base font-medium leading-none text-gray-700 mr-2">
+                          好吃的蛋糕
+                        </p>
+                      </div>
+                    </td>
+                    {/* price */}
+                    <td className="pl-10">
+                      <div className="flex items-center">
+                        <p className="text-sm leading-none text-gray-600 ml-2">
+                          Urgent
+                        </p>
+                      </div>
+                    </td>
+                    {/* express */}
+                    <td className="pl-5">
+                      <div className="flex items-center">
+                        <p className="text-sm leading-none text-gray-600 ml-2">
+                          04/07
+                        </p>
+                      </div>
+                    </td>
+                    {/* created_at */}
+                    <td className="pl-5">
+                      <div className="flex items-center">
+                        <p className="text-sm leading-none text-gray-600 ml-2">
+                          23
+                        </p>
+                      </div>
+                    </td>
+                    {/* 編輯 */}
+                    <td>
+                      <div className="relative pl-5 pr-1 pt-2">
+                        <AiOutlineEdit className="text-xl text-gray-600" />
+                      </div>
+                    </td>
+                    {/* 刪除 */}
+                    <td>
+                      <div className="relative px-2 pt-2">
+                        <AiOutlineDelete className="text-xl text-gray-600" />
+                      </div>
+                    </td>
+                    {/* accordion */}
+                    <td>
+                      <div className="relative pl-5 pr-1 pt-2" onClick={toggle}>
+                        {show === true ? (
+                          <>
+                            <AiOutlineUp className="text-xl text-gray-600 cursor-pointer rotate-0 transition-all" />
+                          </>
+                        ) : (
+                          <>
+                            <AiOutlineUp className="text-xl text-gray-600 cursor-pointer rotate-180 transition-all" />
+                            {/* <AiOutlineDown className="text-xl text-gray-600 cursor-pointer" /> */}
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                  {show === true ? (
+                    <tr className="h-16 border border-gray-300 rounded transition-all">
+                      <td></td>
+                      <div className="flex items-center pl-5">
+                        <p>產品說明</p>
+                      </div>
+                      <div className="flex items-center pl-5 my-3">
+                        <p>內容填這邊</p>
+                      </div>
+                      {/* <td>產品說明</td>
+                          <td>內容填這邊</td> */}
+                    </tr>
+                  ) : (
+                    <tr className="hidden"></tr>
+                  )}
+                  <tr className="h-3" />
                 </tbody>
               </table>
             </div>
@@ -171,13 +226,12 @@ const ProductList = () => {
         </div>
         <style>
           {` .checkbox:checked + .check-icon {
-                display: flex;
-            }`}
+                    display: flex;
+                }`}
         </style>
       </div>
-      <ul className="flex justify-center mt-8">{getPages()}</ul>
     </>
   );
 };
 
-export default ProductList;
+export default UserList;

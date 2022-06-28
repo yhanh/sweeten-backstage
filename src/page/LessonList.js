@@ -1,53 +1,19 @@
-import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import ProductTableRow from "../components/TableRow/ProductTableRow";
-
+import LessonTableRow from "../components/TableRow/LessonTableRow";
+import axios from "axios";
 import { API_URL } from "../utils/config";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
+const LessonList = () => {
+  const [lessons, setLessons] = useState([]);
 
   useEffect(() => {
-    let getProducts = async () => {
-      let response = await axios.get(`${API_URL}/product`, {
-        params: {
-          page: page,
-        },
-      });
-      setProducts(response.data.data);
-      setTotalPage(response.data.pagination.totalPage);
+    const getLessons = async () => {
+      let response = await axios.get(`${API_URL}/lesson`);
+      setLessons(response.data);
+    //   console.log(response.data);
     };
-    getProducts();
-  }, [page]);
-
-  const getPages = () => {
-    let pages = [];
-    for (let i = 1; i <= totalPage; i++) {
-      pages.push(
-        <li
-          key={i}
-          onClick={(e) => {
-            setPage(i);
-          }}
-          className="text-center rounded"
-          style={{
-            margin: "2px",
-            backgroundColor: page === i ? "#F39898" : "",
-            borderColor: page === i ? "#A9A9A9" : "#dbdbdb",
-            color: page === i ? "#fff" : "#765544",
-            borderWidth: "1px",
-            width: "28px",
-            height: "28px",
-          }}
-        >
-          {i}
-        </li>
-      );
-    }
-    return pages;
-  };
+    getLessons();
+  }, []);
 
   return (
     <>
@@ -142,14 +108,14 @@ const ProductList = () => {
                     <th className="pl-5">
                       <div className="flex items-center">
                         <p className="text-sm leading-none text-gray-600 ml-2">
-                          貨運
+                          課程日期
                         </p>
                       </div>
                     </th>
                     <th className="pl-5">
                       <div className="flex items-center">
                         <p className="text-sm leading-none text-gray-600 ml-2">
-                          建立時間
+                          課程時數
                         </p>
                       </div>
                     </th>
@@ -157,10 +123,10 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {products.map((product) => {
+                  {lessons.map((lesson) => {
                     return (
-                      <Fragment key={product.id}>
-                        <ProductTableRow product={product} />
+                      <Fragment key={lesson.id}>
+                        <LessonTableRow lesson={lesson} />
                       </Fragment>
                     );
                   })}
@@ -171,13 +137,12 @@ const ProductList = () => {
         </div>
         <style>
           {` .checkbox:checked + .check-icon {
-                display: flex;
-            }`}
+                  display: flex;
+              }`}
         </style>
       </div>
-      <ul className="flex justify-center mt-8">{getPages()}</ul>
     </>
   );
 };
 
-export default ProductList;
+export default LessonList;
