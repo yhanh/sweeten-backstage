@@ -7,6 +7,9 @@ import ProductList from "../page/ProductList";
 import UserList from "../page/UserList";
 import CouponList from "../page/CouponList";
 import ProductEditCard from "../components/EditCard/ProductEditCard";
+import Header from "./Header";
+import TagBar from "./TagBar";
+import Footer from "./Footer";
 
 // context
 export const EditContext = React.createContext();
@@ -26,6 +29,9 @@ const Main = () => {
           <ProductEditCard />
         </div>
 
+      <Header/>
+      <TagBar/>
+
         <main className="flex flex-wrap justify-center pb-12 mx-auto pt-10 bg-light bg-opacity-60">
           <div className="relative w-full p-8 bg-white shadow max-w-screen-2xl">
             <Routes>
@@ -36,6 +42,8 @@ const Main = () => {
             </Routes>
           </div>
         </main>
+
+        <Footer/>
       </EditContext.Provider>
     </>
   );

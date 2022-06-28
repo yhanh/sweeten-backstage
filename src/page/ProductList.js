@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import ProductTableRow from "../components/TableRow/ProductTableRow";
-
 import { API_URL } from "../utils/config";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+
+// components
+import ProductTableRow from "../components/TableRow/ProductTableRow";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -87,11 +89,17 @@ const ProductList = () => {
                   </div>
                 </a>
               </div>
-              <button className="mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
+              {/* create new product btn */}
+              {/* <button className="mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
                 <p className="text-sm font-medium leading-none text-white">
                   Add Task
                 </p>
-              </button>
+              </button> */}
+              <div className="w-7 h-7">
+                <AiOutlinePlusCircle
+                  className="w-7 h-7 cursor-pointer"
+                />
+              </div>
             </div>
             <div className="mt-7 overflow-x-auto">
               <table className="w-full whitespace-nowrap">
@@ -127,7 +135,7 @@ const ProductList = () => {
                     {/* 名稱 */}
                     <th>
                       <div className="flex items-center pl-5">
-                        <p className="text-base font-medium leading-none text-gray-700 mr-2">
+                        <p className="text-sm leading-none text-gray-600 mr-2">
                           名稱
                         </p>
                       </div>
