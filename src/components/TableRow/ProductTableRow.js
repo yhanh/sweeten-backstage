@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
 import { EditContext } from "../../layout/Main";
+import { API_URL } from "../../utils/config";
 
 const ProductTableRow = (props) => {
   const { product } = props;
@@ -11,6 +13,10 @@ const ProductTableRow = (props) => {
 
   const editState = useContext(EditContext);
   // console.log(editState);
+
+  const deleteProductFunction = async () => {
+    let deleteProduct = await axios.delete(`${API_URL}/product/${product.id}`);
+  };
 
   return (
     <>
@@ -63,10 +69,10 @@ const ProductTableRow = (props) => {
         <td>
           <div className="relative pl-5 pr-1 pt-2">
             <AiOutlineEdit
-              className="text-xl text-gray-600 cursor-pointer"
+              className="text-xl text-gray-600 cursor-pointer hover:text-orange-400"
               onClick={(e) => {
-                editState.setIsOpen(true);
-                editState.setProductData(product);
+                editState.setIsOpen({ edit: true });
+                editState.setSweetenData(product);
               }}
             />
           </div>
@@ -74,7 +80,12 @@ const ProductTableRow = (props) => {
         {/* 刪除 */}
         <td>
           <div className="relative px-2 pt-2">
-            <AiOutlineDelete className="text-xl text-gray-600 cursor-pointer" />
+            <AiOutlineDelete
+              className="text-xl text-gray-600 cursor-pointer hover:text-red-600"
+              onClick={(e) => {
+                deleteProductFunction();
+              }}
+            />
           </div>
         </td>
         {/* accordion */}

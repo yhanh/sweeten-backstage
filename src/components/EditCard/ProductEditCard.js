@@ -6,8 +6,9 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const ProductEditCard = () => {
   const editState = useContext(EditContext);
+  // console.log(editState)
 
-  return editState.isOpen ? (
+  return editState.isOpen.edit ? (
     <>
       {/* occupy the space of a screen page */}
       <div className="fixed w-screen h-screen z-10 mx-auto">
@@ -19,7 +20,8 @@ const ProductEditCard = () => {
           <div className="rounded-t bg-white px-6 py-4">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">
-                編輯商品 {editState.productData.id} : {editState.productData.name}
+                編輯商品 {editState.sweetenData.id} :{" "}
+                {editState.sweetenData.name}
               </h6>
               {/* <button
                 className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -70,7 +72,7 @@ const ProductEditCard = () => {
                       <input
                         type="number"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.id}`}
+                        defaultValue={`${editState.sweetenData.id}`}
                       />
                     </div>
                   </div>
@@ -86,7 +88,7 @@ const ProductEditCard = () => {
                       <input
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.name}`}
+                        defaultValue={`${editState.sweetenData.name}`}
                         name="name"
                         //   value={updateProduct.name}
                         //   onChange={handleChange}
@@ -105,7 +107,7 @@ const ProductEditCard = () => {
                       <input
                         type="number"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.price}`}
+                        defaultValue={`${editState.sweetenData.price}`}
                         name="price"
                         //   value={updateProduct.price}
                         //   onChange={handleChange}
@@ -124,7 +126,7 @@ const ProductEditCard = () => {
                       <input
                         type="number"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.express_id}`}
+                        defaultValue={`${editState.sweetenData.express_id}`}
                         name="express_id"
                         //   value={updateProduct.express_id}
                         //   onChange={handleChange}
@@ -143,7 +145,7 @@ const ProductEditCard = () => {
                       <input
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.created_at}`}
+                        defaultValue={`${editState.sweetenData.created_at}`}
                       />
                     </div>
                   </div>
@@ -162,7 +164,7 @@ const ProductEditCard = () => {
                       <textarea
                         type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue={`${editState.productData.description}`}
+                        defaultValue={`${editState.sweetenData.description}`}
                         rows="4"
                         name="description"
                         //   value={updateProduct.description}

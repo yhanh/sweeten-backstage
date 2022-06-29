@@ -1,15 +1,20 @@
 import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { API_URL } from "../utils/config";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 // components
 import ProductTableRow from "../components/TableRow/ProductTableRow";
+import { EditContext, PassProduct } from "../layout/Main";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+
+  // context
+  const editState = useContext(EditContext);
+  const passProductState = useContext(PassProduct);
 
   useEffect(() => {
     let getProducts = async () => {
@@ -18,12 +23,14 @@ const ProductList = () => {
           page: page,
         },
       });
-      setProducts(response.data.data);
+      passProductState.setProducts(response.data.data);
       setTotalPage(response.data.pagination.totalPage);
     };
     getProducts();
-  }, [page]);
+  }, [page, passProductState]);
 
+  // 製作分頁
+  // TODO 如果刪除沒有資料，要跳前一頁
   const getPages = () => {
     let pages = [];
     for (let i = 1; i <= totalPage; i++) {
@@ -97,7 +104,10 @@ const ProductList = () => {
               </button> */}
               <div className="w-7 h-7">
                 <AiOutlinePlusCircle
-                  className="w-7 h-7 cursor-pointer"
+                  className="w-7 h-7 cursor-pointer hover:text-green-600"
+                  onClick={(e) => {
+                    editState.setIsOpen({ create: true });
+                  }}
                 />
               </div>
             </div>
@@ -165,7 +175,7 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {products.map((product) => {
+                  {passProductState.products.map((product) => {
                     return (
                       <Fragment key={product.id}>
                         <ProductTableRow product={product} />

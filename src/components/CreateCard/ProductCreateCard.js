@@ -1,10 +1,50 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { EditContext } from "../../layout/Main";
+import { PassProduct } from "../../layout/Main";
+import { API_URL } from "../../utils/config";
 
-const ProductCreateCard = (props) => {
-  const { createProductIsOpen } = props;
+const ProductCreateCard = () => {
+  const editState = useContext(EditContext);
+  const passProductState = useContext(PassProduct);
+  // console.log(passProductState);
 
-  return createProductIsOpen ? (
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    express_id: 1,
+  });
+
+  function handleChange(e) {
+    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+  }
+
+  // 新資料寫入資料庫
+  async function handelSubmit(e) {
+    e.preventDefault();
+    // TODO 加強防呆
+    if (
+      newProduct.name !== "" &&
+      newProduct.price !== 0 &&
+      newProduct.description !== ""
+    )
+      try {
+        await axios.post(`${API_URL}/product`, newProduct);
+        editState.setIsOpen({});
+        console.log("新增商品成功");
+        // 頁面馬上更新
+        passProductState.setProducts([
+          ...passProductState.products,
+          newProduct,
+        ]);
+      } catch (e) {
+        console.log("新增商品失敗");
+      }
+  }
+
+  return editState.isOpen.create ? (
     <>
       {/* occupy the space of a screen page */}
       <div className="fixed w-screen h-screen z-10 mx-auto">
@@ -25,9 +65,9 @@ const ProductCreateCard = (props) => {
               <div className="h-7 flex">
                 <AiOutlineCloseCircle
                   className="h-7 w-7 cursor-pointer m-auto hover:text-warning"
-                  //   onClick={(e) => {
-                  //     editState.setIsOpen(false);
-                  //   }}
+                  onClick={(e) => {
+                    editState.setIsOpen(false);
+                  }}
                 />
               </div>
             </div>
@@ -54,7 +94,7 @@ const ProductCreateCard = (props) => {
               </h6> */}
                 <div className="flex flex-wrap">
                   {/* id */}
-                  <div className="w-full lg:w-4/12 px-4">
+                  {/* <div className="w-full lg:w-4/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -65,12 +105,12 @@ const ProductCreateCard = (props) => {
                       <input
                         type="number"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="商品 id"
+                        // placeholder="商品 id"
                       />
                     </div>
-                  </div>
+                  </div> */}
                   {/* name */}
-                  <div className="w-full lg:w-8/12 px-4">
+                  <div className="w-full lg:w-12/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -80,13 +120,14 @@ const ProductCreateCard = (props) => {
                       </label>
                       <input
                         type="text"
+                        name="name"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="商品名稱"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
                   {/* price */}
-                  <div className="w-full lg:w-6/12 px-4">
+                  <div className="w-full lg:w-5/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -96,13 +137,15 @@ const ProductCreateCard = (props) => {
                       </label>
                       <input
                         type="number"
+                        name="price"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="商品價格"
+                        min={0}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
                   {/* express */}
-                  <div className="w-full lg:w-6/12 px-4">
+                  <div className="w-full lg:w-7/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -110,15 +153,24 @@ const ProductCreateCard = (props) => {
                       >
                         配送方式
                       </label>
-                      <input
+                      <select
+                        name="express"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 text-center"
+                        onChange={handleChange}
+                      >
+                        {/* TODO 要補上 option 的 value */}
+                        <option value={1}>低溫配送</option>
+                        <option value={2}>常溫配送</option>
+                        <option value={3}>店取</option>
+                      </select>
+                      {/* <input
                         type="number"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="配送方式"
-                      />
+                      /> */}
                     </div>
                   </div>
                   {/* date */}
-                  <div className="w-full lg:w-12/12 px-4">
+                  {/* <div className="w-full lg:w-12/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -127,12 +179,11 @@ const ProductCreateCard = (props) => {
                         建立時間
                       </label>
                       <input
-                        type="text"
+                        type="date"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="建立時間"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* description */}
@@ -147,9 +198,10 @@ const ProductCreateCard = (props) => {
                       </label>
                       <textarea
                         type="text"
+                        name="description"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="商品說明"
                         rows="4"
+                        onChange={handleChange}
                       ></textarea>
                     </div>
                   </div>
@@ -160,6 +212,7 @@ const ProductCreateCard = (props) => {
                   <button
                     className="bg-secondary hover:bg-warning text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                     type="submit"
+                    onClick={handelSubmit}
                   >
                     完成
                   </button>
