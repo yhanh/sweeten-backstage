@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { EditContext } from "../../layout/Main";
 import { PassProduct } from "../../layout/Main";
@@ -39,10 +39,18 @@ const ProductCreateCard = () => {
           ...passProductState.products,
           newProduct,
         ]);
+        window.location.reload();
       } catch (e) {
         console.log("新增商品失敗");
       }
   }
+
+  // useEffect(() => {
+  //   async function fetchNewData() {
+  //     await axios.get(`${API_URL}/product`);
+  //   }
+  //   fetchNewData();
+  // }, [passProductState.products]);
 
   return editState.isOpen.create ? (
     <>
@@ -74,53 +82,45 @@ const ProductCreateCard = () => {
           </div>
 
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form
-              className="flex"
-              //   onSubmit={handleSubmit}
-            >
+            <form className="flex">
               <div className="pt-8 flex-1">
-                <img
-                  src={process.env.PUBLIC_URL + "/images/lemon.jpg"}
-                  className="w-full h-full object-cover"
-                  alt=""
-                />
+                <label
+                  className="relative block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-full"
+                  htmlFor="productImg"
+                >
+                  上傳圖片
+                  <div className="border-test border-2 border-dashed w-full h-full rounded-md mt-2">
+                    <img
+                      src={process.env.PUBLIC_URL + "/images/uploadImg.png"}
+                      className=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/3 object-cover absolute opacity-40"
+                      alt=""
+                    />
+                    <input
+                      type="file"
+                      id="productImg"
+                      className="w-full h-full object-cover opacity-0"
+                    />
+                  </div>
+                </label>
               </div>
 
               {/* <hr className="mt-6 border-b-1 border-blueGray-300" /> */}
 
               <div className="pt-8 flex-1">
-                {/* <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                商品資訊
-              </h6> */}
                 <div className="flex flex-wrap">
-                  {/* id */}
-                  {/* <div className="w-full lg:w-4/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        id
-                      </label>
-                      <input
-                        type="number"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        // placeholder="商品 id"
-                      />
-                    </div>
-                  </div> */}
                   {/* name */}
                   <div className="w-full lg:w-12/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
+                        htmlFor="productName"
                       >
                         名稱
                       </label>
                       <input
                         type="text"
                         name="name"
+                        id="productName"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         onChange={handleChange}
                       />
@@ -131,13 +131,14 @@ const ProductCreateCard = () => {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
+                        htmlFor="productPrice"
                       >
                         價格
                       </label>
                       <input
                         type="number"
                         name="price"
+                        id="productPrice"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         min={0}
                         onChange={handleChange}
@@ -147,14 +148,11 @@ const ProductCreateCard = () => {
                   {/* express */}
                   <div className="w-full lg:w-7/12 px-4">
                     <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
+                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                         配送方式
                       </label>
                       <select
-                        name="express"
+                        name="express_id"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 text-center"
                         onChange={handleChange}
                       >
@@ -163,27 +161,8 @@ const ProductCreateCard = () => {
                         <option value={2}>常溫配送</option>
                         <option value={3}>店取</option>
                       </select>
-                      {/* <input
-                        type="number"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      /> */}
                     </div>
                   </div>
-                  {/* date */}
-                  {/* <div className="w-full lg:w-12/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        建立時間
-                      </label>
-                      <input
-                        type="date"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
-                    </div>
-                  </div> */}
                 </div>
 
                 {/* description */}
@@ -192,13 +171,14 @@ const ProductCreateCard = () => {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
+                        htmlFor="productDescription"
                       >
                         說明
                       </label>
                       <textarea
                         type="text"
                         name="description"
+                        id="productDescription"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         rows="4"
                         onChange={handleChange}

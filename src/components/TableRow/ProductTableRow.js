@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
-import { EditContext } from "../../layout/Main";
+import { EditContext, PassProduct } from "../../layout/Main";
 import { API_URL } from "../../utils/config";
 
 const ProductTableRow = (props) => {
@@ -13,11 +13,8 @@ const ProductTableRow = (props) => {
 
   const editState = useContext(EditContext);
   // console.log(editState);
-
-  const deleteProductFunction = async () => {
-    let deleteProduct = await axios.delete(`${API_URL}/product/${product.id}`);
-  };
-
+  const passProductState = useContext(PassProduct);
+  // console.log(editState);
   return (
     <>
       {/* row */}
@@ -44,7 +41,7 @@ const ProductTableRow = (props) => {
         {/* price */}
         <td className="pl-10">
           <div className="flex items-center">
-            <p className="text-sm leading-none text-gray-600 ml-2">
+            <p className="text-sm leading-none text-gray-600 ml-2 text-right">
               {product.price}
             </p>
           </div>
@@ -62,6 +59,14 @@ const ProductTableRow = (props) => {
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
               {product.created_at}
+            </p>
+          </div>
+        </td>
+        {/* valid */}
+        <td className="pl-5">
+          <div className="flex items-center">
+            <p className="text-sm leading-none text-gray-600 ml-2">
+              {product.valid}
             </p>
           </div>
         </td>
@@ -83,7 +88,14 @@ const ProductTableRow = (props) => {
             <AiOutlineDelete
               className="text-xl text-gray-600 cursor-pointer hover:text-red-600"
               onClick={(e) => {
+                const deleteProductFunction = async () => {
+                  let deleteProduct = await axios.delete(
+                    `${API_URL}/product/${product.id}`
+                  );
+                };
                 deleteProductFunction();
+                // passProductState.setProducts([...passProductState.products])
+                window.location.reload();
               }}
             />
           </div>
