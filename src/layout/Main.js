@@ -16,6 +16,7 @@ import PopupWindows from "../components/PopupWindow/PopupWindows";
 // context
 export const EditContext = React.createContext();
 export const PassProduct = React.createContext();
+export const ProductPage = React.createContext();
 
 const Main = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +25,24 @@ const Main = () => {
   // setIsOpen({ create: true });
   const [products, setProducts] = useState([]);
   // setProducts([newProduct,...products])
+  const [productPage, setProductPage] = useState(1);
+  const [totalProductPage, setTotalProductPage] = useState(1);
 
   return (
     <>
       <EditContext.Provider
         value={{ isOpen, setIsOpen, sweetenData, setSweetenData }}
       >
-        <PassProduct.Provider value={{ products, setProducts }}>
-
+        <PassProduct.Provider
+          value={{
+            products,
+            setProducts,
+            productPage,
+            setProductPage,
+            totalProductPage,
+            setTotalProductPage,
+          }}
+        >
           {/* edit */}
           <div>
             {/* <ProductEditCard /> */}

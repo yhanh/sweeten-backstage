@@ -3,17 +3,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { EditContext, PassProduct } from "../../layout/Main";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { API_URL } from "../../utils/config";
+import { BASE_URL } from "../../utils/config";
 
 // TODO Click outside to close
 
 const ProductEditCard = () => {
   const [editProduct, setEditProduct] = useState({
+    // info
     name: "",
     price: 0,
     description: "",
     express_id: 1,
     valid: 1,
     created_at: new Date(),
+    // img
+    photo: "",
   });
 
   const editState = useContext(EditContext);
@@ -22,6 +26,8 @@ const ProductEditCard = () => {
   function handleChange(e) {
     setEditProduct({ ...editProduct, [e.target.name]: e.target.value });
   }
+
+  // 抓資料庫裡的資料
   useEffect(() => {
     setEditProduct(editState.sweetenData);
   }, [editState.sweetenData]);
@@ -64,8 +70,9 @@ const ProductEditCard = () => {
           <div className="rounded-t bg-white px-6 py-4">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">
-                編輯商品 {editState.sweetenData.id} :{" "}
-                {editState.sweetenData.name}
+                編輯商品 {editState.sweetenData.id}
+                {/* :{" "}
+                {editState.sweetenData.name} */}
               </h6>
               {/* <button
                 className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -85,10 +92,7 @@ const ProductEditCard = () => {
           </div>
 
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form
-              className="flex"
-              //   onSubmit={handleSubmit}
-            >
+            <form className="flex">
               <div className="pt-8 flex-1">
                 <img
                   src={process.env.PUBLIC_URL + "/images/lemon.jpg"}

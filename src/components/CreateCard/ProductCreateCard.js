@@ -9,37 +9,106 @@ const ProductCreateCard = () => {
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
   // console.log(passProductState);
+  const [path, setPath] = useState("");
 
+  // set 商品 id(時間戳)
+  const id = +new Date();
+
+  // product info
   const [newProduct, setNewProduct] = useState({
+    id: id,
     name: "",
     price: 0,
     description: "",
     express_id: 1,
+    photo: "",
   });
 
+  // product img
+  // const [newProductImg, setNewProductImg] = useState({
+  //   photo: "",
+  // });
+
+  // product info
   function handleChange(e) {
     setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
   }
+
+  function handelPhoto(e) {
+    setNewProduct({ ...newProduct, photo: e.target.files[0] });
+
+    // 預覽圖片
+    let render = new FileReader();
+    render.onload = () => {
+      setPath(render.result);
+    };
+    render?.readAsDataURL(e?.target?.files[0]);
+    e.target.value = "";
+  }
+
+  // 清除預覽圖片預覽
+  // const handleClear = (e) => {
+  //   e.preventDefault();
+  //   setNewProductImg(null);
+  // };
+
+  // product img
+  // function handleChangeImg(e) {
+  //   setNewProductImg({ ...newProductImg, [e.target.name]: e.target.files[0] });
+  // }
+
+  // console.log(newProductImg);
+
+  // 頁面重整 function
+  let reloadAfterUpdate = async () => {
+    let response = await axios.get(`${API_URL}/product`);
+    passProductState.setProducts(response.data.data);
+  };
 
   // 新資料寫入資料庫
   async function handelSubmit(e) {
     e.preventDefault();
     // TODO 加強防呆
     if (
+      // newProductImg !== "" &&
+      newProduct.photo !== "" &&
       newProduct.name !== "" &&
       newProduct.price !== 0 &&
       newProduct.description !== ""
     )
       try {
-        await axios.post(`${API_URL}/product`, newProduct);
-        editState.setIsOpen({});
+        // 商品資料
+        // await axios.post(`${API_URL}/product`, newProduct);
+
+        // 商品圖片
+
+        // let formData = new FormData();
+        // formData.append("photo", newProduct.photo);
+        // // console.log(formData);
+        // await axios.post(`${API_URL}/product/photo`, formData);
+        // // console.log(test);
+        let formData = new FormData();
+        formData.append("id", newProduct.id);
+        formData.append("name", newProduct.name);
+        formData.append("price", newProduct.price);
+        formData.append("description", newProduct.description);
+        formData.append("express_id", newProduct.express_id);
+        formData.append("photo", newProduct.photo);
+
+        await axios.post(`${API_URL}/product/photo`, formData);
+        // await axios.post(`${API_URL}/product`, formData);
+
         console.log("新增商品成功");
+        setPath("");
+        editState.setIsOpen(false);
+
         // 頁面馬上更新
         passProductState.setProducts([
           ...passProductState.products,
           newProduct,
         ]);
-        window.location.reload();
+        reloadAfterUpdate();
+        // window.location.reload();
       } catch (e) {
         console.log("新增商品失敗");
       }
@@ -75,6 +144,7 @@ const ProductCreateCard = () => {
                   className="h-7 w-7 cursor-pointer m-auto hover:text-warning"
                   onClick={(e) => {
                     editState.setIsOpen(false);
+                    setPath("");
                   }}
                 />
               </div>
@@ -85,20 +155,44 @@ const ProductCreateCard = () => {
             <form className="flex">
               <div className="pt-8 flex-1">
                 <label
-                  className="relative block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-full"
+                  className="block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-full"
                   htmlFor="productImg"
                 >
                   上傳圖片
-                  <div className="border-test border-2 border-dashed w-full h-full rounded-md mt-2">
+                  <div className="relative border-test border-2 border-dashed w-full h-full rounded-md mt-2">
                     <img
                       src={process.env.PUBLIC_URL + "/images/uploadImg.png"}
                       className=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/3 object-cover absolute opacity-40"
                       alt=""
                     />
+                    {/* 預覽圖片 */}
+                    {newProduct.img !== "" ? (
+                      <>
+                        <div className="w-full h-full text-center relative mt-1 ">
+                          <img
+                            className="w-full h-11/12 m-auto object-cover"
+                            alt=""
+                            src={path}
+                          />
+                          {/* <button
+                            className={
+                              newProductImg == "" ? "text-center" : "hidden"
+                            }
+                            onClick={handleClear}
+                          >
+                            刪除
+                          </button> */}
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     <input
                       type="file"
+                      name="photo"
                       id="productImg"
                       className="w-full h-full object-cover opacity-0"
+                      onChange={handelPhoto}
                     />
                   </div>
                 </label>
