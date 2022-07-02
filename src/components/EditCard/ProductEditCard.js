@@ -16,12 +16,13 @@ const ProductEditCard = () => {
     express_id: 1,
     valid: 1,
     created_at: new Date(),
-    // img
-    photo: "",
+    // // img
+    // photo: "",
   });
 
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
+  // console.log(editState.sweetenData);
 
   function handleChange(e) {
     setEditProduct({ ...editProduct, [e.target.name]: e.target.value });
@@ -94,11 +95,34 @@ const ProductEditCard = () => {
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
             <form className="flex">
               <div className="pt-8 flex-1">
-                <img
-                  src={process.env.PUBLIC_URL + "/images/lemon.jpg"}
-                  className="w-full h-full object-cover"
-                  alt=""
-                />
+                <label
+                  className="block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-96"
+                  htmlFor="productImg"
+                >
+                  上傳圖片
+                  <div className="relative border-test border-2 border-dashed w-full h-full rounded-md mt-2">
+                    <div className="w-full h-full text-center relative">
+                      <img
+                        src={
+                          BASE_URL +
+                          `/public/product/${editState.sweetenData.id}.jpg`
+                        }
+                        className="w-auto h-full m-auto object-cover"
+                        alt=""
+                        name="photo"
+                        defaultValue={`${editState.sweetenData.photo}`}
+                        onChange={handleChange}
+                      />
+                      <input
+                        type="file"
+                        name="photo"
+                        id="productImg"
+                        className="w-full h-full object-cover opacity-0"
+                        // onChange={handelPhoto}
+                      />
+                    </div>
+                  </div>
+                </label>
               </div>
 
               {/* <hr className="mt-6 border-b-1 border-blueGray-300" /> */}

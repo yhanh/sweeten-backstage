@@ -288,7 +288,7 @@ const ProductList = () => {
                   {passProductState.products.map((product) => {
                     return (
                       <Fragment key={product.id}>
-                        <ProductTableRow product={product} />
+                        <ProductTableRow product={product} page={page} setProductSwitch={setProductSwitch} productSwitch={productSwitch} />
                       </Fragment>
                     );
                   })}

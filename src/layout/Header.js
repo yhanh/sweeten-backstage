@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 const Header = () => {
   let arr = [true, false, false, false, false, false];
   const [style, setStyle] = useState(arr);
   const [dropDown, setDropDown] = useState(true);
   const [text, setText] = useState("");
+  const navigate = useNavigate();
 
   const selected = (props) => {
     let newArr = [...arr];
@@ -112,7 +114,12 @@ const Header = () => {
             </li>
           </ul> */}
           <div className=" flex space-x-5 justify-center items-center pl-2">
-            <div className="relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 ">
+            <div
+              className="relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+              onClick={() => {
+                navigate("main/onlinehelp");
+              }}
+            >
               <svg
                 width={24}
                 height={24}

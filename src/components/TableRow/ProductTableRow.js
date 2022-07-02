@@ -5,7 +5,7 @@ import { EditContext, PassProduct } from "../../layout/Main";
 import { API_URL } from "../../utils/config";
 
 const ProductTableRow = (props) => {
-  const { product } = props;
+  const { product, page, productSwitch, setProductSwitch } = props;
   //   console.log(product);
 
   const [show, setShow] = useState(false);
@@ -15,6 +15,31 @@ const ProductTableRow = (props) => {
   // console.log(editState);
   const passProductState = useContext(PassProduct);
   // console.log(editState);
+
+  // 刷新頁面
+  let reloadAfterDelete = async () => {
+    let response = await axios.get(`${API_URL}/product`, {
+      params: {
+        page: page,
+      },
+    });
+    passProductState.setProducts(response.data.data);
+    setProductSwitch(productSwitch);
+  };
+
+  // delete
+  function handelDelete(e) {
+    const deleteProductFunction = async () => {
+      let deleteProduct = await axios.delete(
+        `${API_URL}/product/${product.id}`
+      );
+    };
+    deleteProductFunction();
+    reloadAfterDelete();
+    // passProductState.setProducts([...passProductState.products])
+    // window.location.reload();
+  }
+
   return (
     <>
       {/* row */}
@@ -87,16 +112,7 @@ const ProductTableRow = (props) => {
           <div className="relative px-2 pt-2">
             <AiOutlineDelete
               className="text-xl text-gray-600 cursor-pointer hover:text-red-600"
-              onClick={(e) => {
-                const deleteProductFunction = async () => {
-                  let deleteProduct = await axios.delete(
-                    `${API_URL}/product/${product.id}`
-                  );
-                };
-                deleteProductFunction();
-                // passProductState.setProducts([...passProductState.products])
-                window.location.reload();
-              }}
+              onClick={handelDelete}
             />
           </div>
         </td>

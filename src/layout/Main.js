@@ -12,6 +12,7 @@ import ProductList from "../page/ProductList";
 import UserList from "../page/UserList";
 import CouponList from "../page/CouponList";
 import PopupWindows from "../components/PopupWindow/PopupWindows";
+// import OnlineHelp from "../components/onlineHelp/OnlineHelp";
 
 // context
 export const EditContext = React.createContext();
@@ -37,24 +38,24 @@ const Main = () => {
           value={{
             products,
             setProducts,
-            productPage,
-            setProductPage,
-            totalProductPage,
-            setTotalProductPage,
+            // productPage,
+            // setProductPage,
+            // totalProductPage,
+            // setTotalProductPage,
           }}
         >
-          {/* edit */}
           <div>
-            {/* <ProductEditCard /> */}
             <PopupWindows />
           </div>
 
           <Header />
+          
           <TagBar />
 
           <main className="flex flex-wrap justify-center pb-12 mx-auto pt-10 bg-light bg-opacity-60">
             <div className="relative w-full p-8 bg-white shadow max-w-screen-2xl">
               <Routes>
+                {/* <Route path="/onlonehelp" element={<OnlineHelp />} /> */}
                 <Route path="/product" element={<ProductList />} />
                 <Route path="/lesson" element={<LessonList />} />
                 <Route path="/user" element={<UserList />} />

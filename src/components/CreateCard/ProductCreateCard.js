@@ -155,7 +155,7 @@ const ProductCreateCard = () => {
             <form className="flex">
               <div className="pt-8 flex-1">
                 <label
-                  className="block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-full"
+                  className="block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-80"
                   htmlFor="productImg"
                 >
                   上傳圖片
@@ -168,9 +168,9 @@ const ProductCreateCard = () => {
                     {/* 預覽圖片 */}
                     {newProduct.img !== "" ? (
                       <>
-                        <div className="w-full h-full text-center relative mt-1 ">
+                        <div className="w-full h-full text-center relative">
                           <img
-                            className="w-full h-11/12 m-auto object-cover"
+                            className="w-auto h-full m-auto object-cover"
                             alt=""
                             src={path}
                           />
