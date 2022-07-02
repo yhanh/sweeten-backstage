@@ -1,17 +1,17 @@
-import React from 'react'
-import ProductCreateCard from '../CreateCard/ProductCreateCard'
-import ProductEditCard from '../EditCard/ProductEditCard'
+// import React from 'react'
+// import ProductCreateCard from '../CreateCard/ProductCreateCard'
+// import ProductEditCard from '../EditCard/ProductEditCard'
 
-const PopupWindows = () => {
-  return (
-    <>
-        {/* edit */}
-        <ProductEditCard/>
+// const PopupWindows = () => {
+//   return (
+//     <>
+//         {/* edit */}
+//         <ProductEditCard/>
 
-        {/* create */}
-        <ProductCreateCard/>
-    </>
-  )
-}
+//         {/* create */}
+//         <ProductCreateCard/>
+//     </>
+//   )
+// }
 
-export default PopupWindows
+// export default PopupWindows

@@ -14,58 +14,56 @@ import CouponList from "../page/CouponList";
 import PopupWindows from "../components/PopupWindow/PopupWindows";
 
 // context
-export const EditContext = React.createContext();
-export const PassProduct = React.createContext();
-export const ProductPage = React.createContext();
+export const PassData = React.createContext();
 
 const Main = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [sweetenData, setSweetenData] = useState(null);
+  /* ----------------------------------- product --------------------------------------- */
+  const [isOpen, setIsOpen] = useState(false); // 開關彈窗
+  const [eachData, setEachData] = useState(null); // 每個 id 對應資料
   // setIsOpen({ edit: true });
   // setIsOpen({ create: true });
-  const [products, setProducts] = useState([]);
+  const [datas, setDatas] = useState([]); // setData(整頁的)
   // setProducts([newProduct,...products])
-  const [productPage, setProductPage] = useState(1);
-  const [totalProductPage, setTotalProductPage] = useState(1);
+  const [page, setPage] = useState(1); // 分頁
+  const [totalPage, setTotalPage] = useState(1); // 總頁數
 
   return (
     <>
-      <EditContext.Provider
-        value={{ isOpen, setIsOpen, sweetenData, setSweetenData }}
+      <PassData.Provider
+        value={{
+          isOpen,
+          setIsOpen,
+          eachData,
+          setEachData,
+          datas,
+          setDatas,
+          page,
+          setPage,
+          totalPage,
+          setTotalPage,
+        }}
       >
-        <PassProduct.Provider
-          value={{
-            products,
-            setProducts,
-            productPage,
-            setProductPage,
-            totalProductPage,
-            setTotalProductPage,
-          }}
-        >
-          {/* edit */}
-          <div>
-            {/* <ProductEditCard /> */}
-            <PopupWindows />
+        {/* 彈窗 */}
+        {/* <div>
+          <PopupWindows />
+        </div> */}
+
+        <Header />
+        <TagBar />
+
+        <main className="flex flex-wrap justify-center pb-12 mx-auto pt-10 bg-light bg-opacity-60">
+          <div className="relative w-full p-8 bg-white shadow max-w-screen-2xl">
+            <Routes>
+              <Route path="/product" element={<ProductList />} />
+              <Route path="/lesson" element={<LessonList />} />
+              <Route path="/user" element={<UserList />} />
+              <Route path="/coupon" element={<CouponList />} />
+            </Routes>
           </div>
+        </main>
 
-          <Header />
-          <TagBar />
-
-          <main className="flex flex-wrap justify-center pb-12 mx-auto pt-10 bg-light bg-opacity-60">
-            <div className="relative w-full p-8 bg-white shadow max-w-screen-2xl">
-              <Routes>
-                <Route path="/product" element={<ProductList />} />
-                <Route path="/lesson" element={<LessonList />} />
-                <Route path="/user" element={<UserList />} />
-                <Route path="/coupon" element={<CouponList />} />
-              </Routes>
-            </div>
-          </main>
-
-          <Footer />
-        </PassProduct.Provider>
-      </EditContext.Provider>
+        <Footer />
+      </PassData.Provider>
     </>
   );
 };

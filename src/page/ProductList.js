@@ -2,106 +2,70 @@ import axios from "axios";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { API_URL } from "../utils/config";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { HiSortDescending, HiSortAscending } from "react-icons/hi";
 
 // components
 import ProductTableRow from "../components/TableRow/ProductTableRow";
-import { EditContext, PassProduct } from "../layout/Main";
+import { PassData } from "../layout/Main";
+import { ProductFilter } from "../components/Filters/ProductFilter";
+import Pagination from "../components/Pagination/Pagination";
 
 const ProductList = () => {
-  // const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
-
   const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
-  // console.log(productSwitch)
 
-  const [sortByPrice, setSortByPrice] = useState("1");
-  const [currentSort, setCurrentSort] = useState({});
-  // console.log(currentSort);
-  // const [cur,setCur]=useState({})
-
-  // class = `${cur["priceUp"] && "active"} class class `
-  // class = `${cur["priceDown"] && "active"} class class `
-  // class = `${cur["DateUp"] && "active"} class class `
-  // onClick = setCur({priceUp:true})
-  // onClick = setCur({priceDown:true})
-  // onClick = setCur({DateUp:true})
+  // const [sortByPrice, setSortByPrice] = useState("1");
+  // const [currentSort, setCurrentSort] = useState({});
 
   // context
-  const editState = useContext(EditContext);
-  const passProductState = useContext(PassProduct);
-
-  // useEffect(init)
-  // onClick(setData(res))
-
-  /*
-  delete => onClick({
-  backend update database
-  local setData(newList)
-  })
-  */
+  const passProductState = useContext(PassData);
+  const { datas, setDatas, setIsOpen, page, setPage, totalPage, setTotalPage } =
+    passProductState;
 
   // 上架商品 & 分頁
-  useEffect(() => {
-    let getProducts = async () => {
-      let response = await axios.get(`${API_URL}/product`, {
-        params: {
-          page: page,
-        },
-      });
-      passProductState.setProducts(response.data.data);
-      setTotalPage(response.data.pagination.totalPage);
-    };
-    getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    window.scrollTo({ top: 0, left: 0 });
-  }, [page]);
-  // [page, passProductState, productSwitch]
+
 
   // 製作分頁
   // TODO 如果刪除沒有資料，要跳前一頁
-  const getPages = () => {
-    let pages = [];
-    if (productSwitch === 0)
-      for (let i = 1; i <= totalPage; i++) {
-        pages.push(
-          <li
-            key={i}
-            onClick={(e) => {
-              setPage(i);
-            }}
-            className="text-center rounded"
-            style={{
-              margin: "2px",
-              backgroundColor: page === i ? "#F39898" : "",
-              borderColor: page === i ? "#A9A9A9" : "#dbdbdb",
-              color: page === i ? "#fff" : "#765544",
-              borderWidth: "1px",
-              width: "28px",
-              height: "28px",
-            }}
-          >
-            {i}
-          </li>
-        );
-      }
-    return pages;
-  };
+  // const getPages = () => {
+  //   let pages = [];
+  //   if (productSwitch === 0)
+  //     for (let i = 1; i <= totalPage; i++) {
+  //       pages.push(
+  //         <li
+  //           key={i}
+  //           onClick={(e) => {
+  //             setPage(i);
+  //           }}
+  //           className="text-center rounded"
+  //           style={{
+  //             margin: "2px",
+  //             backgroundColor: page === i ? "#F39898" : "",
+  //             borderColor: page === i ? "#A9A9A9" : "#dbdbdb",
+  //             color: page === i ? "#fff" : "#765544",
+  //             borderWidth: "1px",
+  //             width: "28px",
+  //             height: "28px",
+  //           }}
+  //         >
+  //           {i}
+  //         </li>
+  //       );
+  //     }
+  //   return pages;
+  // };
 
   // 篩選 useEffect
-  useEffect(() => {
-    const priceASC = async () => {
-      let response = await axios.get(`${API_URL}/product`, {
-        params: {
-          priceOrder: sortByPrice,
-        },
-      });
-      passProductState.setProducts(response.data.data);
-    };
-    priceASC();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortByPrice]);
+  // useEffect(() => {
+  //   const priceASC = async () => {
+  //     let response = await axios.get(`${API_URL}/product`, {
+  //       params: {
+  //         priceOrder: sortByPrice,
+  //       },
+  //     });
+  //     setDatas(response.data.data);
+  //   };
+  //   priceASC();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [sortByPrice]);
 
   return (
     <>
@@ -113,36 +77,7 @@ const ProductList = () => {
                 商品管理
               </p>
               <div className="py-2 px-3 flex text-gray-600 rounded border-2">
-                <div className="flex items-center text-sm font-medium leading-none ">
-                  <p>建立時間：</p>
-                  {/* time ASC */}
-                  <HiSortAscending className="text-3xl mx-3 bg-white p-1 rounded-sm cursor-pointer hover:bg-primary" />
-                  {/* time DESC */}
-                  <HiSortDescending className="text-3xl bg-white p-1 rounded-sm cursor-pointer hover:bg-primary" />
-                </div>
-                <div className="pl-5 flex items-center text-sm font-medium leading-none">
-                  <p>價格：</p>
-                  {/* price ASC */}
-                  <HiSortAscending
-                    className={`${
-                      currentSort.priceIsASC && "bg-secondary"
-                    } text-3xl mx-3 bg-white p-1 rounded-sm cursor-pointer hover:bg-primary`}
-                    onClick={(e) => {
-                      setSortByPrice("1");
-                      setCurrentSort({ priceIsASC: true });
-                    }}
-                  />
-                  {/* price DESC */}
-                  <HiSortDescending
-                    className={`${
-                      currentSort.priceIsDESC && "bg-secondary"
-                    } text-3xl bg-white p-1 rounded-sm cursor-pointer hover:bg-primary`}
-                    onClick={(e) => {
-                      setSortByPrice("2");
-                      setCurrentSort({ priceIsDESC: true });
-                    }}
-                  />
-                </div>
+                <ProductFilter />
               </div>
             </div>
           </div>
@@ -159,7 +94,7 @@ const ProductList = () => {
                           page: page,
                         },
                       });
-                      passProductState.setProducts(response.data.data);
+                      setDatas(response.data.data);
                       setTotalPage(response.data.pagination.totalPage);
                     };
                     getProducts();
@@ -200,7 +135,7 @@ const ProductList = () => {
                         `${API_URL}/product/discontinued`
                       );
                       // console.log(response.data);
-                      passProductState.setProducts(response.data);
+                      setDatas(response.data);
                     };
                     getDiscontinuedProduct();
                   }}
@@ -226,7 +161,7 @@ const ProductList = () => {
                 <AiOutlinePlusCircle
                   className="w-7 h-7 cursor-pointer hover:text-green-600"
                   onClick={(e) => {
-                    editState.setIsOpen({ create: true });
+                    setIsOpen({ create: true });
                   }}
                 />
               </div>
@@ -285,7 +220,7 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {passProductState.products.map((product) => {
+                  {datas.map((product) => {
                     return (
                       <Fragment key={product.id}>
                         <ProductTableRow product={product} />
@@ -303,7 +238,9 @@ const ProductList = () => {
             }`}
         </style>
       </div>
-      <ul className="flex justify-center mt-8">{getPages()}</ul>
+      <ul className="flex justify-center mt-8">
+        <Pagination />
+      </ul>
     </>
   );
 };

@@ -1,20 +1,21 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
-import { EditContext, PassProduct } from "../../layout/Main";
+import { PassData } from "../../layout/Main";
 import { API_URL } from "../../utils/config";
 
 const ProductTableRow = (props) => {
   const { product } = props;
   //   console.log(product);
 
+  // toggle -> 商品說明(accordion)
   const [show, setShow] = useState(false);
   const toggle = () => setShow(!show);
 
-  const editState = useContext(EditContext);
-  // console.log(editState);
-  const passProductState = useContext(PassProduct);
-  // console.log(editState);
+  // context
+  const passProductState = useContext(PassData);
+  const { setEachData, setIsOpen } = passProductState;
+
   return (
     <>
       {/* row */}
@@ -76,8 +77,8 @@ const ProductTableRow = (props) => {
             <AiOutlineEdit
               className="text-xl text-gray-600 cursor-pointer hover:text-orange-400"
               onClick={(e) => {
-                editState.setIsOpen({ edit: true });
-                editState.setSweetenData(product);
+                setIsOpen({ edit: true });
+                setEachData(product);
               }}
             />
           </div>
@@ -110,7 +111,6 @@ const ProductTableRow = (props) => {
             ) : (
               <>
                 <AiOutlineUp className="text-xl text-gray-600 cursor-pointer rotate-180 transition-all" />
-                {/* <AiOutlineDown className="text-xl text-gray-600 cursor-pointer" /> */}
               </>
             )}
           </div>
