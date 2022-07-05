@@ -12,6 +12,7 @@ import ProductList from "../page/ProductList";
 import UserList from "../page/UserList";
 import CouponList from "../page/CouponList";
 import PopupWindows from "../components/PopupWindow/PopupWindows";
+import ChatBox from "../components/TestChat/ChatBox";
 // import OnlineHelp from "../components/onlineHelp/OnlineHelp";
 
 // context
@@ -49,7 +50,7 @@ const Main = () => {
           </div>
 
           <Header />
-          
+
           <TagBar />
 
           <main className="flex flex-wrap justify-center pb-12 mx-auto pt-10 bg-light bg-opacity-60">
@@ -60,6 +61,7 @@ const Main = () => {
                 <Route path="/lesson" element={<LessonList />} />
                 <Route path="/user" element={<UserList />} />
                 <Route path="/coupon" element={<CouponList />} />
+                <Route path="/onlinehelp" element={<ChatBox />} />
               </Routes>
             </div>
           </main>

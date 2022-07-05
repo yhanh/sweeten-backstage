@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   let arr = [true, false, false, false, false, false];
@@ -117,7 +117,7 @@ const Header = () => {
             <div
               className="relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
               onClick={() => {
-                navigate("main/onlinehelp");
+                navigate("onlinehelp");
               }}
             >
               <svg
