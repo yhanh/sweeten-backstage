@@ -24,14 +24,15 @@ const ProductEditCard = () => {
   const passProductState = useContext(PassProduct);
   // console.log(editState.sweetenData);
 
+  // 頁面重整 function
+  let reloadAfterUpdate = async () => {
+    let response = await axios.get(`${API_URL}/product`);
+    passProductState.setProducts(response.data.data);
+  };
+
   function handleChange(e) {
     setEditProduct({ ...editProduct, [e.target.name]: e.target.value });
   }
-
-  // 抓資料庫裡的資料
-  useEffect(() => {
-    setEditProduct(editState.sweetenData);
-  }, [editState.sweetenData]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -53,11 +54,19 @@ const ProductEditCard = () => {
           ...passProductState.products,
           editProduct,
         ]);
-        window.location.reload();
+
+        // 立即刷新頁面
+        reloadAfterUpdate();
+        // window.location.reload();
       } catch (e) {
         console.log("編輯商品失敗");
       }
   }
+
+  // 抓資料庫裡的資料
+  useEffect(() => {
+    setEditProduct(editState.sweetenData);
+  }, [editState.sweetenData]);
 
   return editState.isOpen.edit ? (
     <>

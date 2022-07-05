@@ -179,6 +179,18 @@ const ProductList = () => {
                   href="#/"
                   onClick={(e) => {
                     setProductSwitch(1);
+                    let getExpiryProducts = async () => {
+                      let response = await axios.get(
+                        `${API_URL}/expiry/expire_product`,
+                        {
+                          params: {
+                            page: page,
+                          },
+                        }
+                      );
+                      passProductState.setProducts(response.data.data);
+                    };
+                    getExpiryProducts();
                   }}
                 >
                   <div
@@ -253,34 +265,59 @@ const ProductList = () => {
                         </p>
                       </div>
                     </th>
+                    {/* 價格 or 數量 */}
                     <th className="pl-10">
                       <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          價格
-                        </p>
+                        {productSwitch == 1 ? (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            數量
+                          </p>
+                        ) : (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            價格
+                          </p>
+                        )}
                       </div>
                     </th>
+                    {/* 貨運 or 折扣 */}
                     <th className="pl-5">
                       <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          貨運
-                        </p>
+                        {productSwitch == 1 ? (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            折扣
+                          </p>
+                        ) : (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            貨運
+                          </p>
+                        )}
                       </div>
                     </th>
+                    {/* 建立時間 or 到期時間 */}
                     <th className="pl-5">
                       <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          建立時間
-                        </p>
+                        {productSwitch == 1 ? (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            建立時間
+                          </p>
+                        ) : (
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            到期時間
+                          </p>
+                        )}
                       </div>
                     </th>
-                    <th className="pl-5">
-                      <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          啟用
-                        </p>
-                      </div>
-                    </th>
+                    {productSwitch == 1 ? (
+                      <></>
+                    ) : (
+                      <th className="pl-5">
+                        <div className="flex items-center">
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            啟用
+                          </p>
+                        </div>
+                      </th>
+                    )}
                   </tr>
                   <tr className="h-3" />
                 </thead>
@@ -288,7 +325,12 @@ const ProductList = () => {
                   {passProductState.products.map((product) => {
                     return (
                       <Fragment key={product.id}>
-                        <ProductTableRow product={product} page={page} setProductSwitch={setProductSwitch} productSwitch={productSwitch} />
+                        <ProductTableRow
+                          product={product}
+                          page={page}
+                          setProductSwitch={setProductSwitch}
+                          productSwitch={productSwitch}
+                        />
                       </Fragment>
                     );
                   })}

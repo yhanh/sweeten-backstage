@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
+import { IoIosTimer } from "react-icons/io";
 import { EditContext, PassProduct } from "../../layout/Main";
 import { API_URL } from "../../utils/config";
+// import { useNavigate } from "react-router-dom";
 
 const ProductTableRow = (props) => {
   const { product, page, productSwitch, setProductSwitch } = props;
@@ -15,6 +17,8 @@ const ProductTableRow = (props) => {
   // console.log(editState);
   const passProductState = useContext(PassProduct);
   // console.log(editState);
+
+  // const navigate = useNavigate();
 
   // 刷新頁面
   let reloadAfterDelete = async () => {
@@ -95,6 +99,18 @@ const ProductTableRow = (props) => {
             </p>
           </div>
         </td>
+        {/* 加入即期品 */}
+        <td>
+          <div className="relative pl-5 pr-1 pt-2">
+            <IoIosTimer
+              className="text-xl text-gray-600 cursor-pointer hover:text-orange-300"
+              onClick={(e) => {
+                editState.setIsOpen({ createExpiry: true });
+                editState.setSweetenData(product);
+              }}
+            />
+          </div>
+        </td>
         {/* 編輯 */}
         <td>
           <div className="relative pl-5 pr-1 pt-2">
@@ -133,13 +149,13 @@ const ProductTableRow = (props) => {
         </td>
       </tr>
       {show === true ? (
-        <tr className="h-16 border border-gray-300 rounded transition-all">
-          <td colSpan={8}>
+        <tr className="h-16 border border-gray-300 rounded transition-all w-full">
+          <td colSpan={10}>
             <div className="flex items-center pl-5">
               <p>產品說明</p>
             </div>
             <div className="flex items-center pl-5 my-3">
-              <p>{product.description}</p>
+              <p className="whitespace-pre-wrap pr-5">{product.description}</p>
             </div>
           </td>
         </tr>

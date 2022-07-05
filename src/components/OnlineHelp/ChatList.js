@@ -5,7 +5,7 @@ const ChatList = () => {
     <>
       {/* 列表 */}
       <div className="border-r border-gray-300 lg:col-span-1">
-        <div className="mx-3 my-3">
+        {/* <div className="mx-3 my-3">
           <div className="relative text-gray-600">
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
               <svg
@@ -28,14 +28,14 @@ const ChatList = () => {
               required
             />
           </div>
-        </div>
+        </div> */}
 
         <ul className="overflow-auto h-[32rem]">
           <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
           <li>
             <a
               href="#/"
-              className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
             >
               <img
                 className="object-cover w-10 h-10 rounded-full"
@@ -56,7 +56,7 @@ const ChatList = () => {
             </a>
             <a
               href="#/"
-              className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none"
+              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none"
             >
               <img
                 className="object-cover w-10 h-10 rounded-full"
@@ -79,7 +79,7 @@ const ChatList = () => {
             </a>
             <a
               href="#/"
-              className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
             >
               <img
                 className="object-cover w-10 h-10 rounded-full"

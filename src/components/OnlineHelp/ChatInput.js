@@ -27,6 +27,7 @@ const ChatInput = (props) => {
       setMessage("");
     }
   }
+
   return (
     <>
       <input

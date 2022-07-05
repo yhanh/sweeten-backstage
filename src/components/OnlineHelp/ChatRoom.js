@@ -6,6 +6,8 @@ const ChatRoom = (props) => {
 
   //   const inputRef = useRef();
 
+  const current = new Date();
+
   const chatTable = document.getElementById("chatTable"); // 抓聊天室的元件(要讓新訊息固定在聊天室下面)
 
   function hendleChange(e) {
@@ -16,6 +18,7 @@ const ChatRoom = (props) => {
   useEffect(() => {
     chatTable && (chatTable.scrollTop = chatTable.scrollHeight);
   }, [sendMessage]);
+
   return (
     <>
       {/* 聊天室 */}
@@ -45,13 +48,36 @@ const ChatRoom = (props) => {
                 const strs = messageStr.split("|");
                 console.log(strs);
                 return (
-                  <li className="flex justify-end overflow-auto" key={strs[1]}>
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                      <p>{strs[1]}</p>
-                    </div>
-                  </li>
+                  <div className="flex flex-col">
+                    <li
+                      className={
+                        strs[0] === "official"
+                          ? "flex justify-end overflow-auto"
+                          : "flex justify-start overflow-auto"
+                      }
+                      key={strs[1]}
+                    >
+                      <div
+                        className={
+                          strs[0] === "official"
+                            ? "relative max-w-xl px-4 py-2 text-gray-700 bg-primary rounded shadow"
+                            : "relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow"
+                        }
+                      >
+                        <p>{strs[1]}</p>
+                      </div>
+                    </li>
+                  </div>
                 );
               })}
+              {/* 訊息時間 */}
+              {sendMessage ? (
+                <div className="flex justify-end overflow-auto">
+                  <p className=" text-xs text-test pt-1">{`${current.getHours()}:${current.getMinutes()}`}</p>
+                </div>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
 
