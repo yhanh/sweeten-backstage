@@ -8,7 +8,8 @@ import axios from "axios";
 const ExpiryProductCreateCard = () => {
   // contaxt
   const editState = useContext(EditContext);
-  //   const passProductState = useContext(PassProduct);
+  const passProductState = useContext(PassProduct);
+  const { productSwitch, setProductSwitch, page } = passProductState;
 
   // 要加進 expiry 資料表的 state
   const [addExpiryProduct, setAddExpiryProduct] = useState({
@@ -18,6 +19,17 @@ const ExpiryProductCreateCard = () => {
     discount: 0,
     expiry_date: "",
   });
+
+  // 刷新頁面
+  let reloadAfterDelete = async () => {
+    let response = await axios.get(`${API_URL}/expiry/expire_product`, {
+      params: {
+        page: page,
+      },
+    });
+    passProductState.setProducts(response.data.data);
+    setProductSwitch(1);
+  };
 
   function handleChange(e) {
     setAddExpiryProduct({
@@ -37,6 +49,8 @@ const ExpiryProductCreateCard = () => {
         await axios.post(`${API_URL}/expiry`, addExpiryProduct);
 
         editState.setIsOpen({});
+        reloadAfterDelete();
+
         console.log("新增即期商品成功");
 
         // passProductState.setProducts([

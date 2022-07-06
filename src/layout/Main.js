@@ -13,7 +13,6 @@ import UserList from "../page/UserList";
 import CouponList from "../page/CouponList";
 import PopupWindows from "../components/PopupWindow/PopupWindows";
 import ChatBox from "../components/OnlineHelp/ChatBox";
-import ExpiryPage from "../page/ExpiryPage";
 
 // context
 export const EditContext = React.createContext();
@@ -27,8 +26,10 @@ const Main = () => {
   // setIsOpen({ create: true });
   const [products, setProducts] = useState([]);
   // setProducts([newProduct,...products])
-  const [productPage, setProductPage] = useState(1);
-  const [totalProductPage, setTotalProductPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
 
   return (
     <>
@@ -39,10 +40,12 @@ const Main = () => {
           value={{
             products,
             setProducts,
-            // productPage,
-            // setProductPage,
-            // totalProductPage,
-            // setTotalProductPage,
+            productSwitch,
+            setProductSwitch,
+            page,
+            setPage,
+            totalPage,
+            setTotalPage,
           }}
         >
           <div>

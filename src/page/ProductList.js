@@ -3,6 +3,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { API_URL } from "../utils/config";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { HiSortDescending, HiSortAscending } from "react-icons/hi";
+import { v4 as uuidv4 } from "uuid";
 
 // components
 import ProductTableRow from "../components/TableRow/ProductTableRow";
@@ -10,10 +11,10 @@ import { EditContext, PassProduct } from "../layout/Main";
 
 const ProductList = () => {
   // const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  // const [totalPage, setTotalPage] = useState(1);
 
-  const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
+  // const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
   // console.log(productSwitch)
 
   const [sortByPrice, setSortByPrice] = useState("1");
@@ -21,16 +22,18 @@ const ProductList = () => {
   // console.log(currentSort);
   // const [cur,setCur]=useState({})
 
-  // class = `${cur["priceUp"] && "active"} class class `
-  // class = `${cur["priceDown"] && "active"} class class `
-  // class = `${cur["DateUp"] && "active"} class class `
-  // onClick = setCur({priceUp:true})
-  // onClick = setCur({priceDown:true})
-  // onClick = setCur({DateUp:true})
-
   // context
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
+
+  const {
+    productSwitch,
+    setProductSwitch,
+    page,
+    setPage,
+    totalPage,
+    setTotalPage,
+  } = passProductState; // 上架 / 即期 / 下架 / 頁碼
 
   // useEffect(init)
   // onClick(setData(res))
@@ -48,6 +51,7 @@ const ProductList = () => {
       let response = await axios.get(`${API_URL}/product`, {
         params: {
           page: page,
+          priceOrder: sortByPrice,
         },
       });
       passProductState.setProducts(response.data.data);
@@ -94,6 +98,7 @@ const ProductList = () => {
     const priceASC = async () => {
       let response = await axios.get(`${API_URL}/product`, {
         params: {
+          page: page,
           priceOrder: sortByPrice,
         },
       });
@@ -298,17 +303,24 @@ const ProductList = () => {
                       <div className="flex items-center">
                         {productSwitch == 1 ? (
                           <p className="text-sm leading-none text-gray-600 ml-2">
-                            建立時間
+                            到期時間
                           </p>
                         ) : (
                           <p className="text-sm leading-none text-gray-600 ml-2">
-                            到期時間
+                            建立時間
                           </p>
                         )}
                       </div>
                     </th>
+                    {/* 啟用 or 剩餘時間 */}
                     {productSwitch == 1 ? (
-                      <></>
+                      <th className="pl-5">
+                        <div className="flex items-center">
+                          <p className="text-sm leading-none text-gray-600 ml-2">
+                            剩餘時間
+                          </p>
+                        </div>
+                      </th>
                     ) : (
                       <th className="pl-5">
                         <div className="flex items-center">
@@ -324,7 +336,7 @@ const ProductList = () => {
                 <tbody>
                   {passProductState.products.map((product) => {
                     return (
-                      <Fragment key={product.id}>
+                      <Fragment key={uuidv4()}>
                         <ProductTableRow
                           product={product}
                           page={page}

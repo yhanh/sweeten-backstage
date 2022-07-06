@@ -102,11 +102,11 @@ const ProductCreateCard = () => {
         setPath("");
         editState.setIsOpen(false);
 
-        // 頁面馬上更新
         passProductState.setProducts([
           ...passProductState.products,
           newProduct,
         ]);
+        // 頁面馬上更新
         reloadAfterUpdate();
         // window.location.reload();
       } catch (e) {

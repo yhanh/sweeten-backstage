@@ -1,48 +1,68 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
 import { IoIosTimer } from "react-icons/io";
 import { EditContext, PassProduct } from "../../layout/Main";
-import { API_URL } from "../../utils/config";
-// import { useNavigate } from "react-router-dom";
 
 const ProductTableRow = (props) => {
-  const { product, page, productSwitch, setProductSwitch } = props;
-  //   console.log(product);
+  const { product, page } = props;
+  // console.log(product);
 
   const [show, setShow] = useState(false);
   const toggle = () => setShow(!show);
 
+  const [timer, setTimer] = useState([0, 0, 0, 0]);
+  const [timeOut, setTimeout] = useState(false);
+
+  // context
   const editState = useContext(EditContext);
   // console.log(editState);
   const passProductState = useContext(PassProduct);
+  const { productSwitch, setProductSwitch } = passProductState; // 上架 / 即期 / 下架
   // console.log(editState);
 
-  // const navigate = useNavigate();
+  // 剩餘時間轉換
+  let time;
+  // let strtime = "2022-07-06 14:12:00";
+  let strtime = `${product.expiry_date}`;
+  // product.expiry_date
+  let date = new Date(strtime);
+  date = new Date(strtime.replace(/-/g, "/"));
+  time = date.getTime();
 
-  // 刷新頁面
-  let reloadAfterDelete = async () => {
-    let response = await axios.get(`${API_URL}/product`, {
-      params: {
-        page: page,
-      },
-    });
-    passProductState.setProducts(response.data.data);
-    setProductSwitch(productSwitch);
-  };
+  let now = () => String(+new Date());
 
-  // delete
-  function handelDelete(e) {
-    const deleteProductFunction = async () => {
-      let deleteProduct = await axios.delete(
-        `${API_URL}/product/${product.id}`
-      );
-    };
-    deleteProductFunction();
-    reloadAfterDelete();
-    // passProductState.setProducts([...passProductState.products])
-    // window.location.reload();
-  }
+  let timeDifference = () => time - now();
+
+  let stampToDate = new Date(timeDifference());
+  // let Y = stampToDate.getFullYear() + "-";
+  // let M =
+  //   (stampToDate.getMonth() + 1 < 10
+  //     ? "0" + (stampToDate.getMonth() + 1)
+  //     : stampToDate.getMonth() + 1) + "-";
+  let D = stampToDate.getDate() - 1 + "天 ";
+  let H = stampToDate.getHours() - 8 + "時 ";
+  let M = stampToDate.getMinutes() + "分 ";
+  let S = stampToDate.getSeconds() + "秒";
+  // console.log(D + h + m + s);
+  // 如果 D H M S 都是 0 => 就要跳到期
+
+  useEffect(() => {
+    if (timeDifference() <= 1) {
+      // clearInterval(contDown);
+      setTimeout(true);
+      return;
+    }
+    let contDown = setInterval(() => {
+      if (timeDifference() <= 1) {
+        // clearInterval(contDown);
+        setTimeout(true);
+        return;
+      }
+      setTimer([D, H, M, S]);
+    }, 1000);
+
+    return () => clearInterval(contDown);
+  }, []);
 
   return (
     <>
@@ -67,68 +87,96 @@ const ProductTableRow = (props) => {
             </p>
           </div>
         </td>
-        {/* price */}
+        {/* price or count */}
         <td className="pl-10">
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2 text-right">
-              {product.price}
+              {productSwitch == 1 ? product.count : product.price}
             </p>
           </div>
         </td>
-        {/* express */}
+        {/* express or discount */}
         <td className="pl-5">
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
-              {product.express_id}
+              {productSwitch == 1 ? product.discount : product.express_id}
             </p>
           </div>
         </td>
-        {/* created_at */}
+        {/* created_at or expiry_date */}
         <td className="pl-5">
           <div className="flex items-center">
             <p className="text-sm leading-none text-gray-600 ml-2">
-              {product.created_at}
+              {productSwitch == 1 ? product.expiry_date : product.created_at}
             </p>
           </div>
         </td>
-        {/* valid */}
+        {/* valid or 剩餘時間 */}
         <td className="pl-5">
           <div className="flex items-center">
-            <p className="text-sm leading-none text-gray-600 ml-2">
-              {product.valid}
+            <p
+              className={`${
+                timeOut && "text-warning"
+              } text-sm leading-none text-gray-600 ml-2`}
+            >
+              {productSwitch == 1
+                ? timeOut
+                  ? "已到期"
+                  : D + H + M + S
+                : product.valid}
             </p>
           </div>
         </td>
         {/* 加入即期品 */}
-        <td>
-          <div className="relative pl-5 pr-1 pt-2">
-            <IoIosTimer
-              className="text-xl text-gray-600 cursor-pointer hover:text-orange-300"
-              onClick={(e) => {
-                editState.setIsOpen({ createExpiry: true });
-                editState.setSweetenData(product);
-              }}
-            />
-          </div>
-        </td>
+        {productSwitch !== 0 ? (
+          <></>
+        ) : (
+          <td>
+            <div className="relative pl-5 pr-1 pt-2">
+              <IoIosTimer
+                className="text-xl text-gray-600 cursor-pointer hover:text-orange-300"
+                onClick={(e) => {
+                  editState.setIsOpen({ createExpiry: true });
+                  editState.setSweetenData(product);
+                }}
+              />
+            </div>
+          </td>
+        )}
+
         {/* 編輯 */}
-        <td>
-          <div className="relative pl-5 pr-1 pt-2">
-            <AiOutlineEdit
-              className="text-xl text-gray-600 cursor-pointer hover:text-orange-400"
-              onClick={(e) => {
-                editState.setIsOpen({ edit: true });
-                editState.setSweetenData(product);
-              }}
-            />
-          </div>
-        </td>
+        {productSwitch == 1 ? (
+          <></>
+        ) : (
+          <td>
+            <div className="relative pl-5 pr-1 pt-2">
+              <AiOutlineEdit
+                className={`${
+                  timeOut && "opacity-30 cursor-default hover:text-gray-600"
+                } text-xl text-gray-600 cursor-pointer hover:text-orange-400`}
+                onClick={(e) => {
+                  timeOut
+                    ? editState.setIsOpen(false)
+                    : editState.setIsOpen({ edit: true });
+                  editState.setSweetenData(product);
+                }}
+              />
+            </div>
+          </td>
+        )}
+
         {/* 刪除 */}
         <td>
           <div className="relative px-2 pt-2">
             <AiOutlineDelete
               className="text-xl text-gray-600 cursor-pointer hover:text-red-600"
-              onClick={handelDelete}
+              onClick={(e) => {
+                productSwitch == 1
+                  ? editState.setIsOpen({ deleteExpiryProduct: true })
+                  : editState.setIsOpen({ deleteProduct: true });
+
+                editState.setSweetenData(product);
+              }}
             />
           </div>
         </td>
