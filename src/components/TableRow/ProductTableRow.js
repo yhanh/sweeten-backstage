@@ -204,7 +204,11 @@ const ProductTableRow = (props) => {
               <p>產品說明</p>
             </div>
             <div className="flex items-center pl-5 my-3">
-              <p className="whitespace-pre-wrap pr-5">{product.description}</p>
+              <p className="whitespace-pre-wrap pr-5">
+                {product.description == ""
+                  ? "目前暫無商品說明"
+                  : product.description}
+              </p>
             </div>
           </td>
         </tr>

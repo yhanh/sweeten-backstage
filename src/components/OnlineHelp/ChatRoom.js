@@ -30,7 +30,7 @@ const ChatRoom = (props) => {
               src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
               alt="username"
             />
-            <span className="block ml-2 font-bold text-gray-600">Emma</span>
+            <span className="block ml-2 font-bold text-gray-600">1657338127455</span>
             <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
           </div>
           <div
@@ -71,13 +71,13 @@ const ChatRoom = (props) => {
                 );
               })}
               {/* 訊息時間 */}
-              {sendMessage ? (
+              {/* {sendMessage ? (
                 <div className="flex justify-end overflow-auto">
                   <p className=" text-xs text-test pt-1">{`${current.getHours()}:${current.getMinutes()}`}</p>
                 </div>
               ) : (
                 <></>
-              )}
+              )} */}
             </ul>
           </div>
 

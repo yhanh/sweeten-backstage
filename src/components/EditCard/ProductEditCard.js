@@ -46,8 +46,8 @@ const ProductEditCard = () => {
     e.preventDefault();
     if (
       editProduct.name !== "" &&
-      editProduct.price !== 0 &&
-      editProduct.description !== ""
+      editProduct.price !== 0 
+      // editProduct.description !== ""
     )
       try {
         await axios.patch(

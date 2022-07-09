@@ -50,7 +50,7 @@ const TagBar = (props) => {
             navigate(`/main/coupon`)
           }}
         >
-          <p className="pb-2 text-center">優惠卷管理</p>
+          <p className="pb-2 text-center">訂單管理</p>
         </div>
 
         <motion.div

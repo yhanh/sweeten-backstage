@@ -45,16 +45,18 @@ const ChatList = () => {
               <div className="w-full pb-2">
                 <div className="flex justify-between">
                   <span className="block ml-2 font-semibold text-gray-600">
-                    Jhon Don
+                    1657337950103
                   </span>
-                  <span className="block ml-2 text-sm text-gray-600">
+                  {/* <span className="block ml-2 text-sm text-gray-600">
                     25 minutes
-                  </span>
+                  </span> */}
                 </div>
-                <span className="block ml-2 text-sm text-gray-600">bye</span>
+                <span className="block ml-2 text-sm text-gray-400">
+                  謝謝，再麻煩您確認
+                </span>
               </div>
             </a>
-            <a
+            {/* <a
               href="#/"
               className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none"
             >
@@ -76,30 +78,7 @@ const ChatList = () => {
                   Good night
                 </span>
               </div>
-            </a>
-            <a
-              href="#/"
-              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
-            >
-              <img
-                className="object-cover w-10 h-10 rounded-full"
-                src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-                alt="username"
-              />
-              <div className="w-full pb-2">
-                <div className="flex justify-between">
-                  <span className="block ml-2 font-semibold text-gray-600">
-                    Emma
-                  </span>
-                  <span className="block ml-2 text-sm text-gray-600">
-                    6 hour
-                  </span>
-                </div>
-                <span className="block ml-2 text-sm text-gray-600">
-                  Good Morning
-                </span>
-              </div>
-            </a>
+            </a> */}
           </li>
         </ul>
       </div>
