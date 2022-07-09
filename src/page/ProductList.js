@@ -17,7 +17,7 @@ const ProductList = () => {
   // const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
   // console.log(productSwitch)
 
-  const [sortByPrice, setSortByPrice] = useState("1");
+  // const [sortByPrice, setSortByPrice] = useState("1");
   const [currentSort, setCurrentSort] = useState({});
   // console.log(currentSort);
   // const [cur,setCur]=useState({})
@@ -26,6 +26,8 @@ const ProductList = () => {
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
 
+  // console.log(passProductState.products);
+
   const {
     productSwitch,
     setProductSwitch,
@@ -33,6 +35,8 @@ const ProductList = () => {
     setPage,
     totalPage,
     setTotalPage,
+    sortByPrice,
+    setSortByPrice,
   } = passProductState; // 上架 / 即期 / 下架 / 頁碼
 
   // useEffect(init)
@@ -334,7 +338,7 @@ const ProductList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {passProductState.products.map((product) => {
+                  {(passProductState.products || []).map((product) => {
                     return (
                       <Fragment key={uuidv4()}>
                         <ProductTableRow

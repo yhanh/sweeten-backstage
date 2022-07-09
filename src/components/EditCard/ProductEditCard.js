@@ -23,11 +23,17 @@ const ProductEditCard = () => {
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
   // console.log(editState.sweetenData);
-  const { productSwitch, setProductSwitch, page } = passProductState; // 上架 / 即期 / 下架 / 頁碼
+  const { productSwitch, setProductSwitch, page, sortByPrice } =
+    passProductState; // 上架 / 即期 / 下架 / 頁碼
 
   // 頁面重整 function
   let reloadAfterUpdate = async () => {
-    let response = await axios.get(`${API_URL}/product`);
+    let response = await axios.get(`${API_URL}/product`, {
+      params: {
+        page: page,
+        priceOrder: sortByPrice,
+      },
+    });
     passProductState.setProducts(response.data.data);
     // setProductSwitch(productSwitch);
   };

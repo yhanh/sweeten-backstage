@@ -12,11 +12,10 @@ const ProductCreateCard = () => {
   const [path, setPath] = useState("");
 
   // set 商品 id(時間戳)
-  const id = +new Date();
 
   // product info
   const [newProduct, setNewProduct] = useState({
-    id: id,
+    id: +new Date(),
     name: "",
     price: 0,
     description: "",
@@ -73,8 +72,8 @@ const ProductCreateCard = () => {
       // newProductImg !== "" &&
       newProduct.photo !== "" &&
       newProduct.name !== "" &&
-      newProduct.price !== 0 &&
-      newProduct.description !== ""
+      newProduct.price !== 0
+      // newProduct.description !== ""
     )
       try {
         // 商品資料
@@ -88,7 +87,7 @@ const ProductCreateCard = () => {
         // await axios.post(`${API_URL}/product/photo`, formData);
         // // console.log(test);
         let formData = new FormData();
-        formData.append("id", newProduct.id);
+        formData.append("id", +new Date());
         formData.append("name", newProduct.name);
         formData.append("price", newProduct.price);
         formData.append("description", newProduct.description);

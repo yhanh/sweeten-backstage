@@ -30,6 +30,7 @@ const Main = () => {
   const [totalPage, setTotalPage] = useState(1);
 
   const [productSwitch, setProductSwitch] = useState(0); // 上架 / 即期 / 下架
+  const [sortByPrice, setSortByPrice] = useState("1"); // 價格篩選
 
   return (
     <>
@@ -46,6 +47,8 @@ const Main = () => {
             setPage,
             totalPage,
             setTotalPage,
+            sortByPrice,
+            setSortByPrice,
           }}
         >
           <div>

@@ -67,6 +67,7 @@ const ProductTableRow = (props) => {
   return (
     <>
       {/* row */}
+      {/* <tr key={props.key} className="h-16 border border-gray-300 rounded"> */}
       <tr className="h-16 border border-gray-300 rounded">
         {/* checkbox */}
         <td>
