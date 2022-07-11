@@ -40,7 +40,7 @@ const ChatBox = () => {
       </div>
       <div className="w-10/12 mx-auto py-3">
         <div className="min-w-full border rounded lg:grid lg:grid-cols-3">
-          <ChatList />
+          <ChatList sendMessage={sendMessage} />
           <ChatRoom
             message={message}
             setMessage={setMessage}

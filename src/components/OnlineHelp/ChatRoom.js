@@ -46,9 +46,9 @@ const ChatRoom = (props) => {
               {/* <span className="block">Hiiii</span> */}
               {sendMessage.map((messageStr, index) => {
                 const strs = messageStr.split("|");
-                console.log(strs);
+                {/* console.log(strs); */}
                 return (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col" key={strs[1]}>
                     <li
                       className={
                         strs[0] === "official"
