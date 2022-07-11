@@ -34,7 +34,7 @@ const ChatList = (props) => {
 
         {/* {sendMessage} */}
         <ul className="overflow-auto h-[32rem]">
-          <h2 className="my-2 mb-2 pl-2 pb-2 text-lg text-gray-600 border-b-2">
+          <h2 className="my-2 mb-2 pl-2 pb-7 text-lg text-gray-600 border-b">
             Chats
           </h2>
           {sendMessage.length == 0 ? (
@@ -47,20 +47,20 @@ const ChatList = (props) => {
               >
                 <img
                   className="object-cover w-10 h-10 rounded-full"
-                  src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
+                  src={process.env.PUBLIC_URL + "/images/a.png"}
                   alt="username"
                 />
                 <div className="w-full pb-2">
                   <div className="flex justify-between">
                     <span className="block ml-2 font-semibold text-gray-600">
-                      1657337950103
+                    1657338127455
                     </span>
                     {/* <span className="block ml-2 text-sm text-gray-600">
                     25 minutes
                   </span> */}
                   </div>
                   <span className="block ml-2 text-sm text-gray-400">
-                    謝謝，再麻煩您確認
+                    ...
                   </span>
                 </div>
               </a>
