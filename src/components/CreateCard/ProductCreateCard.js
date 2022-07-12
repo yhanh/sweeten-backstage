@@ -12,11 +12,10 @@ const ProductCreateCard = () => {
   const [path, setPath] = useState("");
 
   // set 商品 id(時間戳)
-  const id = +new Date();
 
   // product info
   const [newProduct, setNewProduct] = useState({
-    id: id,
+    id: +new Date(),
     name: "",
     price: 0,
     description: "",
@@ -73,8 +72,8 @@ const ProductCreateCard = () => {
       // newProductImg !== "" &&
       newProduct.photo !== "" &&
       newProduct.name !== "" &&
-      newProduct.price !== 0 &&
-      newProduct.description !== ""
+      newProduct.price !== 0
+      // newProduct.description !== ""
     )
       try {
         // 商品資料
@@ -88,7 +87,7 @@ const ProductCreateCard = () => {
         // await axios.post(`${API_URL}/product/photo`, formData);
         // // console.log(test);
         let formData = new FormData();
-        formData.append("id", newProduct.id);
+        formData.append("id", +new Date());
         formData.append("name", newProduct.name);
         formData.append("price", newProduct.price);
         formData.append("description", newProduct.description);
@@ -124,24 +123,24 @@ const ProductCreateCard = () => {
   return editState.isOpen.create ? (
     <>
       {/* occupy the space of a screen page */}
-      <div className="fixed w-screen h-screen z-10 mx-auto">
+      <div className="fixed z-10 w-screen h-screen mx-auto">
         {/* background */}
         <div className="w-full h-full bg-test opacity-70"></div>
 
         {/* card */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col min-w-0 mx-auto break-words w-2/5 shadow-lg rounded-lg bg-zinc-100 border-0">
-          <div className="rounded-t bg-white px-6 py-4">
-            <div className="text-center flex justify-between">
-              <h6 className="text-blueGray-700 text-xl font-bold">新增商品</h6>
+        <div className="absolute flex flex-col w-2/5 min-w-0 mx-auto break-words -translate-x-1/2 -translate-y-1/2 border-0 rounded-lg shadow-lg top-1/2 left-1/2 bg-zinc-100">
+          <div className="px-6 py-4 bg-white rounded-t">
+            <div className="flex justify-between text-center">
+              <h6 className="text-xl font-bold text-blueGray-700">新增商品</h6>
               {/* <button
-                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                className="px-4 py-2 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-500 active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                 type="submit"
               >
                 完成
               </button> */}
-              <div className="h-7 flex">
+              <div className="flex h-7">
                 <AiOutlineCloseCircle
-                  className="h-7 w-7 cursor-pointer m-auto hover:text-warning"
+                  className="m-auto cursor-pointer h-7 w-7 hover:text-warning"
                   onClick={(e) => {
                     editState.setIsOpen(false);
                     setPath("");
@@ -151,26 +150,26 @@ const ProductCreateCard = () => {
             </div>
           </div>
 
-          <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+          <div className="flex-auto px-4 py-10 pt-0 lg:px-10">
             <form className="flex">
-              <div className="pt-8 flex-1">
+              <div className="flex-1 pt-8">
                 <label
-                  className="block uppercase text-blueGray-600 text-xs font-bold mb-2 w-full h-80"
+                  className="block w-full mb-2 text-xs font-bold uppercase text-blueGray-600 h-80"
                   htmlFor="productImg"
                 >
                   上傳圖片
-                  <div className="relative border-test border-2 border-dashed w-full h-full rounded-md mt-2">
+                  <div className="relative w-full h-full mt-2 border-2 border-dashed rounded-md border-test">
                     <img
                       src={process.env.PUBLIC_URL + "/images/uploadImg.png"}
-                      className=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/3 object-cover absolute opacity-40"
+                      className="absolute object-cover w-1/2 -translate-x-1/2 -translate-y-1/2  top-1/2 left-1/2 h-1/3 opacity-40"
                       alt=""
                     />
                     {/* 預覽圖片 */}
                     {newProduct.img !== "" ? (
                       <>
-                        <div className="w-full h-full text-center relative">
+                        <div className="relative w-full h-full text-center">
                           <img
-                            className="w-auto h-full m-auto object-cover"
+                            className="object-cover w-auto h-full m-auto"
                             alt=""
                             src={path}
                           />
@@ -191,7 +190,7 @@ const ProductCreateCard = () => {
                       type="file"
                       name="photo"
                       id="productImg"
-                      className="w-full h-full object-cover opacity-0"
+                      className="object-cover w-full h-full opacity-0"
                       onChange={handelPhoto}
                     />
                   </div>
@@ -200,13 +199,13 @@ const ProductCreateCard = () => {
 
               {/* <hr className="mt-6 border-b-1 border-blueGray-300" /> */}
 
-              <div className="pt-8 flex-1">
+              <div className="flex-1 pt-8">
                 <div className="flex flex-wrap">
                   {/* name */}
-                  <div className="w-full lg:w-12/12 px-4">
+                  <div className="w-full px-4 lg:w-12/12">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                         htmlFor="productName"
                       >
                         名稱
@@ -215,16 +214,16 @@ const ProductCreateCard = () => {
                         type="text"
                         name="name"
                         id="productName"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
                   {/* price */}
-                  <div className="w-full lg:w-5/12 px-4">
+                  <div className="w-full px-4 lg:w-5/12">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                         htmlFor="productPrice"
                       >
                         價格
@@ -233,21 +232,21 @@ const ProductCreateCard = () => {
                         type="number"
                         name="price"
                         id="productPrice"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
                         min={0}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
                   {/* express */}
-                  <div className="w-full lg:w-7/12 px-4">
+                  <div className="w-full px-4 lg:w-7/12">
                     <div className="relative w-full mb-3">
-                      <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                      <label className="block mb-2 text-xs font-bold uppercase text-blueGray-600">
                         配送方式
                       </label>
                       <select
                         name="express_id"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 text-center"
+                        className="w-full px-3 py-3 text-sm text-center transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
                         onChange={handleChange}
                       >
                         {/* TODO 要補上 option 的 value */}
@@ -261,10 +260,10 @@ const ProductCreateCard = () => {
 
                 {/* description */}
                 <div className="flex flex-wrap">
-                  <div className="w-full lg:w-12/12 px-4">
+                  <div className="w-full px-4 lg:w-12/12">
                     <div className="relative w-full mb-3">
                       <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                         htmlFor="productDescription"
                       >
                         說明
@@ -273,7 +272,7 @@ const ProductCreateCard = () => {
                         type="text"
                         name="description"
                         id="productDescription"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
                         rows="4"
                         onChange={handleChange}
                       ></textarea>
@@ -282,9 +281,9 @@ const ProductCreateCard = () => {
                 </div>
 
                 {/* button */}
-                <div className="text-center flex flex-wrap justify-end">
+                <div className="flex flex-wrap justify-end text-center">
                   <button
-                    className="bg-secondary hover:bg-warning text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                    className="px-4 py-2 mr-1 text-xs font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-secondary hover:bg-warning active:bg-lightBlue-600 hover:shadow-md focus:outline-none"
                     type="submit"
                     onClick={handelSubmit}
                   >
