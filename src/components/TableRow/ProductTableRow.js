@@ -85,7 +85,7 @@ const ProductTableRow = (props) => {
 
   useEffect(() => {
     let countDown = setInterval(() => {
-      if (restTime < 1) {
+      if (restTime <= 1) {
         clearInterval(countDown);
         setTimeOut(true);
         return;
@@ -93,7 +93,7 @@ const ProductTableRow = (props) => {
       setTimer([D, H, M, S]);
     }, 1000);
     return () => clearInterval(countDown);
-  }, []);
+  }, [timer]);
 
   return (
     <>
@@ -235,15 +235,11 @@ const ProductTableRow = (props) => {
               <p>產品說明</p>
             </div>
             <div className="flex items-center pl-5 my-3">
-<<<<<<< HEAD
-              <p className="pr-5 whitespace-pre-wrap">{product.description}</p>
-=======
-              <p className="whitespace-pre-wrap pr-5">
+              <p className="pr-5 whitespace-pre-wrap">
                 {product.description == ""
                   ? "目前暫無商品說明"
                   : product.description}
               </p>
->>>>>>> 23c26e184b0a268150510c494d24218f6ec3f596
             </div>
           </td>
         </tr>

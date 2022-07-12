@@ -47,11 +47,7 @@ const ProductEditCard = () => {
     e.preventDefault();
     if (
       editProduct.name !== "" &&
-<<<<<<< HEAD
       editProduct.price !== 0
-=======
-      editProduct.price !== 0 
->>>>>>> 23c26e184b0a268150510c494d24218f6ec3f596
       // editProduct.description !== ""
     )
       try {
