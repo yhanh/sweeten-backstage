@@ -1,6 +1,8 @@
 import React from "react";
 
-const ChatList = () => {
+const ChatList = (props) => {
+  const { sendMessage } = props;
+
   return (
     <>
       {/* 列表 */}
@@ -30,31 +32,39 @@ const ChatList = () => {
           </div>
         </div> */}
 
+        {/* {sendMessage} */}
         <ul className="overflow-auto h-[32rem]">
-          <h2 className="my-2 mb-2 ml-2 text-lg text-gray-600">Chats</h2>
-          <li>
-            <a
-              href="#/"
-              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
-            >
-              <img
-                className="object-cover w-10 h-10 rounded-full"
-                src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg"
-                alt="username"
-              />
-              <div className="w-full pb-2">
-                <div className="flex justify-between">
-                  <span className="block ml-2 font-semibold text-gray-600">
-                    Jhon Don
-                  </span>
-                  <span className="block ml-2 text-sm text-gray-600">
+          <h2 className="my-2 mb-2 pl-2 pb-7 text-lg text-gray-600 border-b">
+            Chats
+          </h2>
+          {sendMessage.length == 0 ? (
+            <></>
+          ) : (
+            <li>
+              <a
+                href="#/"
+                className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+              >
+                <img
+                  className="object-cover w-10 h-10 rounded-full"
+                  src={process.env.PUBLIC_URL + "/images/a.png"}
+                  alt="username"
+                />
+                <div className="w-full pb-2">
+                  <div className="flex justify-between">
+                    <span className="block ml-2 font-semibold text-gray-600">
+                    1657338127455
+                    </span>
+                    {/* <span className="block ml-2 text-sm text-gray-600">
                     25 minutes
+                  </span> */}
+                  </div>
+                  <span className="block ml-2 text-sm text-gray-400">
+                    ...
                   </span>
                 </div>
-                <span className="block ml-2 text-sm text-gray-600">bye</span>
-              </div>
-            </a>
-            <a
+              </a>
+              {/* <a
               href="#/"
               className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none"
             >
@@ -76,31 +86,9 @@ const ChatList = () => {
                   Good night
                 </span>
               </div>
-            </a>
-            <a
-              href="#/"
-              className="flex items-center px-5 py-3 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
-            >
-              <img
-                className="object-cover w-10 h-10 rounded-full"
-                src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-                alt="username"
-              />
-              <div className="w-full pb-2">
-                <div className="flex justify-between">
-                  <span className="block ml-2 font-semibold text-gray-600">
-                    Emma
-                  </span>
-                  <span className="block ml-2 text-sm text-gray-600">
-                    6 hour
-                  </span>
-                </div>
-                <span className="block ml-2 text-sm text-gray-600">
-                  Good Morning
-                </span>
-              </div>
-            </a>
-          </li>
+            </a> */}
+            </li>
+          )}
         </ul>
       </div>
     </>

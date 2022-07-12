@@ -9,30 +9,46 @@ const ProductDeleteCard = () => {
   // context
   const editState = useContext(EditContext);
   const passProductState = useContext(PassProduct);
-  const { productSwitch, setProductSwitch, page } = passProductState; // 上架 / 即期 / 下架 / 頁碼
+  const { productSwitch, setProductSwitch, page, sortByPrice } =
+    passProductState; // 上架 / 即期 / 下架 / 頁碼
+
+  let getDiscontinuedProduct = async () => {
+    let response = await axios.get(`${API_URL}/product/discontinued`);
+    // console.log(response.data);
+    passProductState.setProducts(response.data);
+  };
+  //getDiscontinuedProduct();
 
   // 刷新頁面
   let reloadAfterDelete = async () => {
     let response = await axios.get(`${API_URL}/product`, {
       params: {
         page: page,
+        priceOrder: sortByPrice,
       },
     });
+
     passProductState.setProducts(response.data.data);
-    setProductSwitch(productSwitch);
+    // setProductSwitch(productSwitch);
   };
 
   // delete
-  function handelDelete(e) {
+  async function handelDelete(e) {
     e.preventDefault();
-    const deleteProductFunction = async () => {
-      let deleteProduct = await axios.delete(
-        `${API_URL}/product/${editState.sweetenData.id}`
-      );
-    };
-    deleteProductFunction();
+    //const deleteProductFunction = async () => {
+    let deleteProduct = await axios.delete(
+      `${API_URL}/product/${editState.sweetenData.id}`
+    );
+    //};
+    // deleteProductFunction();
+
+    if (productSwitch === 2) {
+      getDiscontinuedProduct();
+    } else {
+      reloadAfterDelete();
+    }
+
     editState.setIsOpen(false);
-    reloadAfterDelete();
 
     // passProductState.setProducts([...passProductState.products])
     // window.location.reload();
@@ -50,7 +66,7 @@ const ProductDeleteCard = () => {
           <div className="rounded-t bg-white px-6 py-4">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">
-                確定刪除商品：{editState.sweetenData.id}？
+                確定刪除下架商品：{editState.sweetenData.id}？
               </h6>
               <div className="h-7 flex">
                 <AiOutlineCloseCircle

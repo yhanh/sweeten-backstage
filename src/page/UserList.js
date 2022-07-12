@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineUp } from "react-icons/ai";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import LessonTableRow from "../components/TableRow/LessonTableRow";
+import axios from "axios";
+import { API_URL } from "../utils/config";
 
 const UserList = () => {
-  const [show, setShow] = useState(false);
-  const toggle = () => setShow(!show);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getLessons = async () => {
+      let response = await axios.get(`${API_URL}/user`);
+      setUsers(response.data);
+      //   console.log(response.data);
+    };
+    getLessons();
+  }, []);
 
   return (
     <>
@@ -25,8 +37,8 @@ const UserList = () => {
             </div>
           </div>
           <div className="bg-white py-4 md:py-7 px-4 md:px-8 xl:px-10">
-            <div className="sm:flex items-center justify-between">
-              <div className="flex items-center">
+            <div className="sm:flex items-center justify-end">
+              {/* <div className="flex items-center">
                 <a href="#/">
                   <div className="py-2 px-8 bg-indigo-100 text-indigo-700 rounded-full">
                     <p>All</p>
@@ -42,12 +54,15 @@ const UserList = () => {
                     <p>Pending</p>
                   </div>
                 </a>
+              </div> */}
+              <div className="w-7 h-7">
+                <AiOutlinePlusCircle
+                  className="w-7 h-7 cursor-pointer hover:text-green-600"
+                  // onClick={(e) => {
+                  //   editState.setIsOpen({ create: true });
+                  // }}
+                />
               </div>
-              <button className="mt-4 sm:mt-0 inline-flex items-start justify-start px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded">
-                <p className="text-sm font-medium leading-none text-white">
-                  Add Task
-                </p>
-              </button>
             </div>
             <div className="mt-7 overflow-x-auto">
               <table className="w-full whitespace-nowrap">
@@ -58,25 +73,8 @@ const UserList = () => {
                         <div className="bg-gray-200 rounded-sm w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
                           <input
                             type="checkbox"
-                            className="checkbox opacity-0 absolute cursor-pointer w-full h-full"
+                            className="checkbox absolute cursor-pointer w-full h-full"
                           />
-                          <div className="check-icon  bg-indigo-700 text-white rounded-sm">
-                            <svg
-                              className="icon icon-tabler icon-tabler-check"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={20}
-                              height={20}
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              fill="none"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path stroke="none" d="M0 0h24v24H0z" />
-                              <path d="M5 12l5 5l10 -10" />
-                            </svg>
-                          </div>
                         </div>
                       </div>
                     </th>
@@ -113,112 +111,13 @@ const UserList = () => {
                   <tr className="h-3" />
                 </thead>
                 <tbody>
-                  {/* row */}
-                  <tr className="h-16 border border-gray-300 rounded">
-                    {/* checkbox */}
-                    <td>
-                      <div className="ml-5">
-                        <div className="bg-gray-200 rounded-sm w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
-                          <input
-                            type="checkbox"
-                            className="checkbox opacity-0 absolute cursor-pointer w-full h-full"
-                          />
-                          <div className="check-icon  bg-indigo-700 text-white rounded-sm">
-                            <svg
-                              className="icon icon-tabler icon-tabler-check"
-                              xmlns="http://www.w3.org/2000/svg"
-                              width={20}
-                              height={20}
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              fill="none"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path stroke="none" d="M0 0h24v24H0z" />
-                              <path d="M5 12l5 5l10 -10" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    {/* name */}
-                    <td>
-                      <div className="flex items-center pl-5">
-                        <p className="text-base font-medium leading-none text-gray-700 mr-2">
-                          好吃的蛋糕
-                        </p>
-                      </div>
-                    </td>
-                    {/* price */}
-                    <td className="pl-10">
-                      <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          Urgent
-                        </p>
-                      </div>
-                    </td>
-                    {/* express */}
-                    <td className="pl-5">
-                      <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          04/07
-                        </p>
-                      </div>
-                    </td>
-                    {/* created_at */}
-                    <td className="pl-5">
-                      <div className="flex items-center">
-                        <p className="text-sm leading-none text-gray-600 ml-2">
-                          23
-                        </p>
-                      </div>
-                    </td>
-                    {/* 編輯 */}
-                    <td>
-                      <div className="relative pl-5 pr-1 pt-2">
-                        <AiOutlineEdit className="text-xl text-gray-600" />
-                      </div>
-                    </td>
-                    {/* 刪除 */}
-                    <td>
-                      <div className="relative px-2 pt-2">
-                        <AiOutlineDelete className="text-xl text-gray-600" />
-                      </div>
-                    </td>
-                    {/* accordion */}
-                    <td>
-                      <div className="relative pl-5 pr-1 pt-2" onClick={toggle}>
-                        {show === true ? (
-                          <>
-                            <AiOutlineUp className="text-xl text-gray-600 cursor-pointer rotate-0 transition-all" />
-                          </>
-                        ) : (
-                          <>
-                            <AiOutlineUp className="text-xl text-gray-600 cursor-pointer rotate-180 transition-all" />
-                            {/* <AiOutlineDown className="text-xl text-gray-600 cursor-pointer" /> */}
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                  {show === true ? (
-                    <tr className="h-16 border border-gray-300 rounded transition-all">
-                      <td></td>
-                      <div className="flex items-center pl-5">
-                        <p>產品說明</p>
-                      </div>
-                      <div className="flex items-center pl-5 my-3">
-                        <p>內容填這邊</p>
-                      </div>
-                      {/* <td>產品說明</td>
-                          <td>內容填這邊</td> */}
-                    </tr>
-                  ) : (
-                    <tr className="hidden"></tr>
-                  )}
-                  <tr className="h-3" />
+                  {users.map((user) => {
+                    return (
+                      <Fragment key={user.id}>
+                        <LessonTableRow lesson={user} />
+                      </Fragment>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

@@ -98,6 +98,7 @@ const ProductTableRow = (props) => {
   return (
     <>
       {/* row */}
+      {/* <tr key={props.key} className="h-16 border border-gray-300 rounded"> */}
       <tr className="h-16 border border-gray-300 rounded">
         {/* checkbox */}
         <td>
@@ -234,7 +235,15 @@ const ProductTableRow = (props) => {
               <p>產品說明</p>
             </div>
             <div className="flex items-center pl-5 my-3">
+<<<<<<< HEAD
               <p className="pr-5 whitespace-pre-wrap">{product.description}</p>
+=======
+              <p className="whitespace-pre-wrap pr-5">
+                {product.description == ""
+                  ? "目前暫無商品說明"
+                  : product.description}
+              </p>
+>>>>>>> 23c26e184b0a268150510c494d24218f6ec3f596
             </div>
           </td>
         </tr>

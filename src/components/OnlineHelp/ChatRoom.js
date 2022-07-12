@@ -24,15 +24,22 @@ const ChatRoom = (props) => {
       {/* 聊天室 */}
       <div className="hidden lg:col-span-2 lg:block">
         <div className="w-full">
-          <div className="relative flex items-center p-3 border-b border-gray-300">
-            <img
-              className="object-cover w-10 h-10 rounded-full"
-              src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg"
-              alt="username"
-            />
-            <span className="block ml-2 font-bold text-gray-600">Emma</span>
-            <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
-          </div>
+          {sendMessage.length == 0 ? (
+            <div className="p-8 border-b"></div>
+          ) : (
+            <div className="relative flex items-center p-3 border-b border-gray-300">
+              <img
+                className="object-cover w-10 h-10 rounded-full"
+                src={process.env.PUBLIC_URL + "/images/a.png"}
+                alt="username"
+              />
+              <span className="block ml-2 font-bold text-gray-600">
+                1657338127455
+              </span>
+              <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
+            </div>
+          )}
+
           <div
             className="relative w-full p-6 overflow-y-auto h-[40rem]"
             id="chatTable"
@@ -46,9 +53,11 @@ const ChatRoom = (props) => {
               {/* <span className="block">Hiiii</span> */}
               {sendMessage.map((messageStr, index) => {
                 const strs = messageStr.split("|");
-                console.log(strs);
+                {
+                  /* console.log(strs); */
+                }
                 return (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col" key={strs[1]}>
                     <li
                       className={
                         strs[0] === "official"
@@ -71,13 +80,13 @@ const ChatRoom = (props) => {
                 );
               })}
               {/* 訊息時間 */}
-              {sendMessage ? (
+              {/* {sendMessage ? (
                 <div className="flex justify-end overflow-auto">
                   <p className=" text-xs text-test pt-1">{`${current.getHours()}:${current.getMinutes()}`}</p>
                 </div>
               ) : (
                 <></>
-              )}
+              )} */}
             </ul>
           </div>
 

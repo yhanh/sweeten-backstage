@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { EditContext, PassProduct } from "../../layout/Main";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { API_URL } from "../../utils/config";
@@ -19,25 +19,25 @@ const ExpiryProductDeleteCard = () => {
       },
     });
     passProductState.setProducts(response.data.data);
-    setProductSwitch(productSwitch);
   };
 
-  // console.log(productSwitch);
-
   // delete
-  function handelDelete(e) {
+  async function handelDelete(e) {
     e.preventDefault();
-    const deleteExpiryProductFunction = async () => {
       let deleteExpiryProduct = await axios.delete(
         `${API_URL}/expiry/${editState.sweetenData.id}`
       );
-    };
-    deleteExpiryProductFunction();
+    // deleteExpiryProductFunction();
     editState.setIsOpen(false);
     reloadAfterDelete();
     // window.location.reload();
   }
   // console.log(editState.sweetenData);
+
+  // useEffect(() => {
+  //   // reloadAfterDelete();
+  //   setProductSwitch(productSwitch);
+  // }, [passProductState.products]);
 
   return editState.isOpen.deleteExpiryProduct ? (
     <>
